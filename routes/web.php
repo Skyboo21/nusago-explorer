@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController; // Tambahan untuk memanggil DashboardController
 
 // Halaman Utama
 Route::get('/', function () {
@@ -16,5 +17,11 @@ Route::middleware('guest')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
 });
 
-// Route untuk LOGOUT (Harus sudah login)
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
+// Route untuk pengguna yang SUDAH LOGIN (Auth)
+Route::middleware('auth')->group(function () {
+    // Route halaman dashboard baru
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    
+    // Route logout yang sudah ada (dipindahkan ke dalam grup ini biar lebih rapi)
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+});
