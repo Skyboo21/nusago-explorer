@@ -20,17 +20,25 @@ class DashboardController extends Controller
 
     // --- ENKAPSULASI DATA ---
 
-    // 1. Data Profil Lengkap
+    // 1. Data Profil Dinamis Sesuai User Login
     private function getUserProfile()
     {
-        // Nantinya ini bisa diganti dengan: return Auth::user();
+        // Mengambil seluruh data pengguna yang sedang login dari database
+        $user = Auth::user();
+
         return [
-            'nama' => 'Muhammad hariz lazuardi',
-            'asal' => 'Surakarta, Jawa Tengah',
-            'email' => 'hariz@example.com',
-            'bergabung' => 'Maret 2026',
-            'bio' => 'Penjelajah antusias yang selalu mencari destinasi wisata tersembunyi dan kuliner otentik Nusantara.',
-            'avatar' => 'https://ui-avatars.com/api/?name=Muhammad+hariz+lazuardi&background=e3342f&color=fff&size=128'
+            'nama' => $user->name,
+            'email' => $user->email,
+            // Format tanggal bergabung menjadi "Bulan Tahun", jika null tampilkan "Baru bergabung"
+            'bergabung' => $user->created_at ? $user->created_at->format('F Y') : 'Baru bergabung',
+            
+            // Catatan: Asal dan Bio menggunakan teks default karena tabel 'users' 
+            // bawaan Laravel belum memiliki kolom 'asal' dan 'bio'.
+            'asal' => 'Penjelajah Nusantara',
+            'bio' => 'Siap mencari destinasi wisata tersembunyi dan kuliner otentik.',
+            
+            // Membuat URL avatar otomatis menyesuaikan inisial nama pengguna yang login
+            'avatar' => 'https://ui-avatars.com/api/?name=' . urlencode($user->name) . '&background=e3342f&color=fff&size=128'
         ];
     }
 
