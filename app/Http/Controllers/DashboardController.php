@@ -4,29 +4,39 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-// Jangan lupa import Model yang dibutuhkan nanti, misalnya:
-// use App\Models\Activity;
-// use App\Models\Location;
 
 class DashboardController extends Controller
 {
-    // Method utama yang akan merender halaman dashboard
     public function index()
     {
-        // Mengambil data terenkapsulasi dari method lain
+        // Mengambil semua data dari method enkapsulasi
+        $userProfile = $this->getUserProfile();
         $userStats = $this->getUserStatistics();
         $recentActivities = $this->getRecentActivities();
         $quickAccess = $this->getQuickAccessMenu();
 
-        // Mengirim data ke antarmuka pengguna (View)
-        return view('dashboard', compact('userStats', 'recentActivities', 'quickAccess'));
+        return view('dashboard', compact('userProfile', 'userStats', 'recentActivities', 'quickAccess'));
     }
 
-    // Enkapsulasi 1: Menghitung Statistik
+    // --- ENKAPSULASI DATA ---
+
+    // 1. Data Profil Lengkap
+    private function getUserProfile()
+    {
+        // Nantinya ini bisa diganti dengan: return Auth::user();
+        return [
+            'nama' => 'Muhammad hariz lazuardi',
+            'asal' => 'Surakarta, Jawa Tengah',
+            'email' => 'hariz@example.com',
+            'bergabung' => 'Maret 2026',
+            'bio' => 'Penjelajah antusias yang selalu mencari destinasi wisata tersembunyi dan kuliner otentik Nusantara.',
+            'avatar' => 'https://ui-avatars.com/api/?name=Muhammad+hariz+lazuardi&background=e3342f&color=fff&size=128'
+        ];
+    }
+
+    // 2. Data Statistik
     private function getUserStatistics()
     {
-        // Contoh data sementara (dummy) jika tabel database belum siap.
-        // Nanti bisa diganti dengan query SQL atau Eloquent Laravel.
         return [
             'total_poin' => 1250,
             'lokasi_dikunjungi' => 14,
@@ -34,10 +44,9 @@ class DashboardController extends Controller
         ];
     }
 
-    // Enkapsulasi 2: Mengambil Log Aktivitas
+    // 3. Log Aktivitas
     private function getRecentActivities()
     {
-        // Contoh data array (Nanti bisa pakai Activity::latest()->take(5)->get())
         return [
             (object)['deskripsi' => 'Mengunjungi Candi Borobudur', 'waktu' => '2 jam yang lalu'],
             (object)['deskripsi' => 'Mendapatkan Badge "Penjelajah Sejarah"', 'waktu' => '1 hari yang lalu'],
@@ -45,13 +54,14 @@ class DashboardController extends Controller
         ];
     }
 
-    // Enkapsulasi 3: Menu Akses Cepat
+    // 4. Menu Akses Cepat
     private function getQuickAccessMenu()
     {
         return [
-            ['nama' => 'Peta Lokasi', 'url' => '#', 'icon' => '🗺️'],
-            ['nama' => 'Misi Harian', 'url' => '#', 'icon' => '🎯'],
-            ['nama' => 'Profil Saya', 'url' => '#', 'icon' => '👤'],
+            ['nama' => 'Peta Lokasi', 'url' => '#', 'icon' => 'fa-regular fa-map'],
+            ['nama' => 'Misi Harian', 'url' => '#', 'icon' => 'fa-solid fa-bullseye'],
+            ['nama' => 'Kuliner', 'url' => '#', 'icon' => 'fa-solid fa-utensils'],
+            ['nama' => 'Pengaturan', 'url' => '#', 'icon' => 'fa-solid fa-gear'],
         ];
     }
 }

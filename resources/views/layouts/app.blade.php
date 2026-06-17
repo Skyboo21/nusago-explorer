@@ -52,7 +52,6 @@
     </style>
 </head>
 <body>
-
     <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top py-3">
         <div class="container">
             <a class="navbar-brand" href="/">
@@ -80,6 +79,15 @@
                                 <i class="fa-solid fa-circle-user me-1 text-danger"></i> {{ Auth::user()->name }}
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end border-0 shadow-sm rounded-3">
+                                <!-- Tambahan Menu Dashboard -->
+                                <li>
+                                    <a class="dropdown-item fw-bold py-2" href="{{ route('dashboard') }}">
+                                        <i class="fa-solid fa-chart-line me-2 text-primary"></i> Dashboard
+                                    </a>
+                                </li>
+                                
+                                <li><hr class="dropdown-divider"></li>
+                                
                                 <li>
                                     <form action="{{ route('logout') }}" method="POST" class="d-inline">
                                         @csrf
