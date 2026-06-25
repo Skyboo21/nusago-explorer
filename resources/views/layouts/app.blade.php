@@ -63,7 +63,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item"><a class="nav-link" href="/">Beranda</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Destinasi</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/destinasi">Destinasi</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Pemandu Lokal</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Kuliner</a></li>
                     
@@ -79,7 +79,6 @@
                                 <i class="fa-solid fa-circle-user me-1 text-danger"></i> {{ Auth::user()->name }}
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end border-0 shadow-sm rounded-3">
-                                <!-- Tambahan Menu Dashboard -->
                                 <li>
                                     <a class="dropdown-item fw-bold py-2" href="{{ route('dashboard') }}">
                                         <i class="fa-solid fa-chart-line me-2 text-primary"></i> Dashboard
