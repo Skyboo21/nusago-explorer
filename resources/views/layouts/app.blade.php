@@ -31,6 +31,8 @@
                 <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item"><a class="nav-link" href="/">Beranda</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Destinasi</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/destinasi">Destinasi</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Pemandu Lokal</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Kuliner</a></li>
 
                     @auth

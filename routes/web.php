@@ -10,6 +10,8 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\KelolaPengunjungController;
 use App\Http\Controllers\Admin\KelolaWisataController;
 use App\Http\Controllers\Admin\DatabaseGuideController;
+use App\Http\Controllers\DashboardController; 
+use App\Http\Controllers\WisataController; // <-- TAMBAHAN BARU
 
 // Halaman Utama
 Route::get('/', function () {
@@ -68,3 +70,17 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::put('/guide/{id}', [DatabaseGuideController::class, 'update'])->name('guide.update');
     Route::delete('/guide/{id}', [DatabaseGuideController::class, 'destroy'])->name('guide.destroy');
 });
+    
+    // Route logout yang sudah ada 
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+});
+
+Route::get('/explorer', function () {
+    return view('explorer'); 
+});
+
+// <-- TAMBAHAN ROUTE UNTUK HALAMAN DETAIL -->
+Route::get('/detail-wisata', [WisataController::class, 'showDetail']);
+
+// Tambahkan baris ini di routes/web.php
+Route::get('/destinasi', [WisataController::class, 'halamanDestinasi'])->name('destinasi');
