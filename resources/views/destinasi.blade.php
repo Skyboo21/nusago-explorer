@@ -33,8 +33,13 @@
     }
 </style>
 
+@guest
+<div class="position-relative">
+    <div style="filter: blur(8px); pointer-events: none; user-select: none; opacity: 0.6;">
+@endguest
+
 <div class="container my-5">
-    
+
     <div class="text-center mb-5">
         <h1 class="fw-bold" style="color: #1d3557;">Destinasi Terpopuler</h1>
         <p class="text-muted">Jelajahi tempat wisata yang sedang tren dan paling banyak dikunjungi.</p>
@@ -77,98 +82,21 @@
         @endforelse
     </div>
 
-    <hr class="my-5" style="border-color: #ccc;">
-
-    <div class="d-flex justify-content-between align-items-end mb-4">
-        <div>
-            <h2 class="fw-bold mb-1" style="color: #1d3557;">📍 Eksplorasi Sekitarmu</h2>
-            <p class="text-muted mb-0 d-none d-md-block">Temukan permata tersembunyi yang ada di dekat posisimu saat ini.</p>
-        </div>
-        <button onclick="cariWisataTerdekat()" id="btn-lokasi" class="btn btn-primary rounded-pill px-4 shadow-sm">
-            <i class="fa-solid fa-location-crosshairs me-2"></i>Aktifkan Lokasi
-        </button>
-    </div>
-
-    <div id="status-lokasi" class="alert alert-info" style="display: none;"></div>
-
-    <div id="carousel-rekomendasi" class="carousel-wrapper" style="display: none;">
-        </div>
-
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
-<script>
-    // Fungsi ini sama persis dengan yang ada di Beranda (home)
-    function cariWisataTerdekat() {
-        const statusDiv = document.getElementById('status-lokasi');
-        const carousel = document.getElementById('carousel-rekomendasi');
-        
-        statusDiv.style.display = 'block';
-        statusDiv.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-2"></i>Meminta akses lokasi ke sistem...';
-        carousel.style.display = 'none';
-
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                (posisi) => {
-                    statusDiv.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-2"></i>Mencari destinasi terdekat dari titikmu...';
-                    kirimKeBackend(posisi.coords.latitude, posisi.coords.longitude);
-                },
-                (error) => {
-                    statusDiv.innerHTML = '<i class="fa-solid fa-triangle-exclamation me-2"></i>Akses lokasi ditolak. Menampilkan rekomendasi area default.';
-                    kirimKeBackend(-7.5504, 110.8316); 
-                }
-            );
-        } else {
-            statusDiv.innerHTML = "Browser kamu tidak mendukung fitur lokasi.";
-        }
-    }
-
-    function kirimKeBackend(lat, lng) {
-        const statusDiv = document.getElementById('status-lokasi');
-        const carousel = document.getElementById('carousel-rekomendasi');
-        
-        axios.post('/api/rekomendasi-wisata', {
-            latitude: lat,
-            longitude: lng
-        })
-        .then(function (response) {
-            const tempatWisata = response.data.data;
-            
-            if(tempatWisata.length === 0) {
-                statusDiv.innerHTML = "Belum ada destinasi yang terdeteksi di radius ini.";
-                return;
-            }
-
-            statusDiv.style.display = 'none';
-            carousel.style.display = 'flex';
-            
-            let html = '';
-            tempatWisata.forEach(tempat => {
-                if(tempat.tags && tempat.tags.name) {
-                    const tipe = tempat.tags.tourism || 'Wisata';
-                    let urlDetail = `/detail-wisata?nama=${encodeURIComponent(tempat.tags.name)}`;
-                    
-                    html += `
-                    <div class="card card-feature carousel-card shadow-sm border-0 rounded-4">
-                        <div class="carousel-img-placeholder">
-                            <i class="fa-solid fa-map-location-dot fa-3x"></i>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold text-truncate" title="${tempat.tags.name}">${tempat.tags.name}</h5>
-                            <p class="card-text text-muted small mb-3"><i class="fa-solid fa-tag text-danger me-2"></i>${tipe.replace('_', ' ')}</p>
-                            <a href="${urlDetail}" class="btn btn-outline-danger w-100 rounded-pill">Lihat Detail</a>
-                        </div>
-                    </div>`;
-                }
-            });
-            
-            carousel.innerHTML = html;
-        })
-        .catch(function (error) {
-            statusDiv.innerHTML = "<span class='text-danger'>Terjadi kesalahan saat memuat data.</span>";
-            console.error(error);
-        });
-    }
-</script>
+@guest
+    </div>
+    <div class="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column align-items-center justify-content-center text-center" style="z-index: 10;">
+        <div class="bg-white p-5 rounded-4 shadow border" style="max-width: 500px;">
+            <i class="fa-solid fa-lock text-danger fa-3x mb-3"></i>
+            <h3 class="fw-bold text-dark">Akses Terbatas</h3>
+            <p class="text-muted mb-4">Untuk melihat informasi lengkap dan fitur destinasi wisata, silakan login/register terlebih dahulu.</p>
+            <div class="d-flex justify-content-center gap-3">
+                <a href="{{ route('login') }}" class="btn btn-danger px-4 rounded-pill fw-bold">Login</a>
+                <a href="{{ route('register') }}" class="btn btn-outline-danger px-4 rounded-pill fw-bold">Daftar</a>
+            </div>
+        </div>
+    </div>
+</div>
+@endguest
 @endsection

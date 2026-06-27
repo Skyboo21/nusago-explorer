@@ -63,16 +63,10 @@
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <script>
-const destinasi = [
-    { nama: 'Candi Borobudur', lokasi: 'Magelang, Jawa Tengah', lat: -7.6079, lng: 110.2038, kategori: 'Sejarah & Budaya' },
-    { nama: 'Pantai Kuta', lokasi: 'Badung, Bali', lat: -8.7184, lng: 115.1686, kategori: 'Pantai & Laut' },
-    { nama: 'Gunung Bromo', lokasi: 'Probolinggo, Jawa Timur', lat: -7.9425, lng: 112.9530, kategori: 'Alam & Petualangan' },
-    { nama: 'Danau Toba', lokasi: 'Sumatera Utara', lat: 2.6845, lng: 98.8756, kategori: 'Alam & Danau' },
-    { nama: 'Labuan Bajo', lokasi: 'Manggarai Barat, NTT', lat: -8.4961, lng: 119.8707, kategori: 'Pantai & Laut' },
-    { nama: 'Raja Ampat', lokasi: 'Papua Barat', lat: -0.2338, lng: 130.5253, kategori: 'Pantai & Laut' },
-];
+
 
 // Hitung jarak (Haversine formula)
 function hitungJarak(lat1, lng1, lat2, lng2) {
@@ -88,7 +82,7 @@ function hitungJarak(lat1, lng1, lat2, lng2) {
 // Init Map
 const map = L.map('map').setView([-2.5489, 118.0149], 5);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© OpenStreetMap contributors'
+    attribution: ' OpenStreetMap contributors'
 }).addTo(map);
 
 // Icon custom merah
@@ -106,12 +100,7 @@ const userIcon = L.divIcon({
     iconAnchor: [10, 10],
 });
 
-// Tambah marker destinasi
-destinasi.forEach(d => {
-    L.marker([d.lat, d.lng], { icon: redIcon })
-        .addTo(map)
-        .bindPopup(`<strong>${d.nama}</strong><br><small>${d.lokasi}</small><br><span class="badge bg-danger">${d.kategori}</span>`);
-});
+
 
 // Deteksi lokasi user
 if (navigator.geolocation) {

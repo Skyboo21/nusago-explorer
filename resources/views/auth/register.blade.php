@@ -7,8 +7,8 @@
     
     /* Area register full dengan background gambar */
     .auth-wrapper {
-        background: linear-gradient(rgba(29, 53, 87, 0.4), rgba(29, 53, 87, 0.8)), url('https://images.unsplash.com/photo-1537956965359-7573183d1f57?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
-        min-height: calc(100vh - 144px);
+        background: linear-gradient(rgba(29, 53, 87, 0.4), rgba(29, 53, 87, 0.8)), url('https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+        min-height: 100vh;
         display: flex;
         align-items: center;
         justify-content: center;

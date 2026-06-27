@@ -19,6 +19,7 @@
     </style>
 </head>
 <body>
+    @if(!request()->routeIs('login') && !request()->routeIs('register'))
     <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top py-3">
         <div class="container">
             <a class="navbar-brand" href="/">
@@ -30,10 +31,9 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item"><a class="nav-link" href="/">Beranda</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Destinasi</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/destinasi">Destinasi</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Pemandu Lokal</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Kuliner</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('destinasi') }}">Destinasi</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('pemandu-lokal') }}">Pemandu Lokal</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('kuliner') }}">Kuliner</a></li>
 
                     @auth
                         <li class="nav-item"><a class="nav-link" href="{{ route('maps.index') }}">
@@ -88,16 +88,19 @@
             </div>
         </div>
     </nav>
+    @endif
 
     <main>
         @yield('content')
     </main>
 
+    @if(!request()->routeIs('login') && !request()->routeIs('register'))
     <footer class="text-center py-4 mt-5">
         <div class="container">
             <p class="mb-0">&copy; 2026 Nusago Explorer. Pesona Indonesia di Ujung Jari.</p>
         </div>
     </footer>
+    @endif
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

@@ -10,13 +10,9 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\KelolaPengunjungController;
 use App\Http\Controllers\Admin\KelolaWisataController;
 use App\Http\Controllers\Admin\DatabaseGuideController;
-use App\Http\Controllers\DashboardController; 
 use App\Http\Controllers\WisataController; // <-- TAMBAHAN BARU
 
-// Halaman Utama
-Route::get('/', function () {
-    return view('home');
-});
+// Halaman Utama dipindah ke dalam auth
 
 // Route untuk pengguna yang BELUM LOGIN (Guest)
 Route::middleware('guest')->group(function () {
@@ -26,8 +22,14 @@ Route::middleware('guest')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
 });
 
+// Halaman Utama (Bisa diakses siapa saja)
+Route::get('/', function () {
+    return view('home');
+});
+
 // Route untuk pengguna yang SUDAH LOGIN (Auth)
 Route::middleware('auth')->group(function () {
+
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
@@ -51,6 +53,12 @@ Route::middleware('auth')->group(function () {
     })->name('maps.index');
 });
 
+// Fitur Tambahan (Bisa diakses, tapi diblur untuk Guest di dalam View-nya)
+Route::get('/destinasi', [WisataController::class, 'halamanDestinasi'])->name('destinasi');
+Route::get('/detail-wisata', [WisataController::class, 'showDetail']);
+Route::get('/pemandu-lokal', function () { return view('coming-soon', ['title' => 'Pemandu Lokal']); })->name('pemandu-lokal');
+Route::get('/kuliner', function () { return view('coming-soon', ['title' => 'Kuliner']); })->name('kuliner');
+
 // Route Admin
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
@@ -70,17 +78,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::put('/guide/{id}', [DatabaseGuideController::class, 'update'])->name('guide.update');
     Route::delete('/guide/{id}', [DatabaseGuideController::class, 'destroy'])->name('guide.destroy');
 });
-    
-    // Route logout yang sudah ada 
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-});
 
 Route::get('/explorer', function () {
     return view('explorer'); 
 });
 
-// <-- TAMBAHAN ROUTE UNTUK HALAMAN DETAIL -->
-Route::get('/detail-wisata', [WisataController::class, 'showDetail']);
-
-// Tambahkan baris ini di routes/web.php
-Route::get('/destinasi', [WisataController::class, 'halamanDestinasi'])->name('destinasi');
