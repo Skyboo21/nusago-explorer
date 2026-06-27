@@ -52,7 +52,7 @@
                                 <img src="https://ui-avatars.com/api/?name=NB&background=e63946&color=fff&size=35"
                                     class="rounded-circle flex-shrink-0" width="35" height="35">
                                 <div class="bg-white rounded-4 rounded-tl-0 px-3 py-2 shadow-sm" style="max-width:80%;">
-                                    <p class="mb-0">{!! nl2br(e($chat->message)) !!}</p>
+                                    <div class="mb-0 chatbot-markdown">{!! \Illuminate\Support\Str::markdown($chat->message) !!}</div>
                                 </div>
                             </div>
                         @endif
@@ -111,6 +111,9 @@
 @keyframes typing { 0%,100%{transform:translateY(0);opacity:0.4} 50%{transform:translateY(-6px);opacity:1} }
 #voiceBtn.recording { background:#e63946; color:white; animation:pulse 1s infinite; }
 @keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(230,57,70,0.4)} 50%{box-shadow:0 0 0 8px rgba(230,57,70,0)} }
+.chatbot-markdown p:last-child { margin-bottom: 0; }
+.chatbot-markdown ul, .chatbot-markdown ol { padding-left: 1.2rem; margin-bottom: 0.5rem; }
+.chatbot-markdown p { margin-bottom: 0.5rem; }
 </style>
 
 <script>
@@ -135,13 +138,14 @@ function addUserBubble(text) {
     scrollBottom();
 }
 
-function addBotBubble(text) {
+function addBotBubble(text, isHtml = false) {
     const div = document.createElement('div');
     div.className = 'd-flex gap-2 mb-3';
+    let content = isHtml ? text : text.replace(/\n/g, '<br>');
     div.innerHTML = `<img src="https://ui-avatars.com/api/?name=NB&background=e63946&color=fff&size=35"
         class="rounded-circle flex-shrink-0" width="35" height="35">
-        <div class="bg-white rounded-4 rounded-tl-0 px-3 py-2 shadow-sm" style="max-width:80%;">
-            <p class="mb-0">${text.replace(/\n/g, '<br>')}</p></div>`;
+        <div class="bg-white rounded-4 rounded-tl-0 px-3 py-2 shadow-sm chatbot-markdown" style="max-width:80%; overflow-x: auto;">
+            <div class="mb-0">${content}</div></div>`;
     chatArea.insertBefore(div, loadingEl);
     scrollBottom();
 }
@@ -162,7 +166,11 @@ async function sendMessage() {
         });
         const data = await res.json();
         loadingEl.classList.add('d-none');
-        addBotBubble(data.reply || 'Maaf, terjadi kesalahan.');
+        if (data.replyHtml) {
+            addBotBubble(data.replyHtml, true);
+        } else {
+            addBotBubble(data.reply || 'Maaf, terjadi kesalahan.', false);
+        }
     } catch(e) {
         loadingEl.classList.add('d-none');
         addBotBubble('Maaf, tidak bisa terhubung ke server.');

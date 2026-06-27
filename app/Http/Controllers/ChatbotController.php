@@ -40,7 +40,7 @@ class ChatbotController extends Controller
 
         $apiKey = env('GEMINI_API_KEY');
         $response = Http::post(
-            "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={$apiKey}",
+            "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key={$apiKey}",
             [
                 'system_instruction' => [
                     'parts' => [['text' => 'Kamu adalah asisten wisata Indonesia bernama NusaBot. Bantu wisatawan dengan informasi destinasi wisata, kuliner, budaya, dan rekomendasi perjalanan di Indonesia. Jawab dalam Bahasa Indonesia yang ramah dan informatif.']]
@@ -61,10 +61,11 @@ class ChatbotController extends Controller
             'message' => $botReply,
         ]);
 
-        if ($request->ajax()) {
-            return response()->json(['reply' => $botReply]);
-        }
-        return redirect()->route('chatbot.index');
+        $replyHtml = \Illuminate\Support\Str::markdown($botReply);
+        return response()->json([
+            'reply' => $botReply,
+            'replyHtml' => $replyHtml
+        ]);
     }
 
     public function clearHistory()
