@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\KelolaPengunjungController;
 use App\Http\Controllers\Admin\KelolaWisataController;
 use App\Http\Controllers\Admin\DatabaseGuideController;
 use App\Http\Controllers\WisataController; // <-- TAMBAHAN BARU
+use App\Http\Controllers\KulinerController;
 
 // Halaman Utama dipindah ke dalam auth
 
@@ -51,13 +52,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/maps', function () {
         return view('maps.index');
     })->name('maps.index');
+
+    // Fitur Cari Terdekat (Kuliner)
+    Route::get('/api/kuliner/terdekat', [KulinerController::class, 'cariTerdekat'])->name('kuliner.terdekat');
 });
 
 // Fitur Tambahan (Bisa diakses, tapi diblur untuk Guest di dalam View-nya)
 Route::get('/destinasi', [WisataController::class, 'halamanDestinasi'])->name('destinasi');
 Route::get('/detail-wisata', [WisataController::class, 'showDetail']);
 Route::get('/pemandu-lokal', function () { return view('coming-soon', ['title' => 'Pemandu Lokal']); })->name('pemandu-lokal');
-Route::get('/kuliner', function () { return view('coming-soon', ['title' => 'Kuliner']); })->name('kuliner');
+Route::get('/kuliner', [KulinerController::class, 'index'])->name('kuliner');
 
 // Route Admin
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
