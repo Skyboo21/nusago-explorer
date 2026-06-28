@@ -49,7 +49,14 @@
         @forelse($destinasiPopuler as $wisata)
             <div class="col-md-4">
                 <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden">
-                    <img src="{{ asset('img/' . $wisata->gambar) }}" class="card-img-top" alt="{{ $wisata->nama_wisata }}" style="height: 200px; object-fit: cover;">
+                    @php
+                        if (Str::startsWith($wisata->gambar, 'http') || Str::startsWith($wisata->gambar, 'data:')) {
+                            $imgSrc = $wisata->gambar;
+                        } else {
+                            $imgSrc = asset('img/' . $wisata->gambar);
+                        }
+                    @endphp
+                    <img src="{{ $imgSrc }}" class="card-img-top" alt="{{ $wisata->nama_wisata }}" style="height: 200px; object-fit: cover;">
                     
                     <div class="card-body position-relative">
                         <div class="position-absolute top-0 end-0 translate-middle-y me-3 bg-warning text-dark px-3 py-1 rounded-pill shadow-sm fw-bold">

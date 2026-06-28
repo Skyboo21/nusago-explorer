@@ -231,9 +231,17 @@
         <a href="/" class="navbar-brand">
             <i class="fa-solid fa-map-location-dot"></i> NUSA GO EXPLORER
         </a>
-        <a href="/" style="text-decoration: none; color: var(--text-dark); font-weight: 600;">
-            <i class="fa-solid fa-house"></i> Kembali ke Beranda
-        </a>
+        <div style="display: flex; gap: 20px; align-items: center;">
+            <a href="/" style="text-decoration: none; color: var(--text-dark); font-weight: 600;">
+                <i class="fa-solid fa-house"></i> Kembali ke Beranda
+            </a>
+            <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                @csrf
+                <button type="submit" style="background: var(--primary-red); color: white; border: none; padding: 8px 20px; border-radius: 20px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-right-from-bracket"></i> Keluar
+                </button>
+            </form>
+        </div>
     </nav>
 
     <div class="container">

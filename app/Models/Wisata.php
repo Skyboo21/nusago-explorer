@@ -10,7 +10,7 @@ class Wisata extends Model
     use HasFactory;
 
     // Kolom yang boleh diisi (CRUD)
-    protected $fillable = ['nama_wisata', 'deskripsi', 'lokasi', 'gambar'];
+    protected $fillable = ['nama_wisata', 'deskripsi', 'lokasi', 'gambar', 'rating', 'jumlah_pengunjung', 'alamat'];
 
     // Relasi ke tabel pemandus
     public function pemandus()

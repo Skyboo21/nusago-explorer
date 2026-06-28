@@ -69,7 +69,7 @@ class WisataController extends Controller
         // Asumsi: tabel kamu memiliki kolom 'rating' dan 'jumlah_pengunjung'
         $destinasiPopuler = Wisata::orderBy('rating', 'desc')
                                   ->orderBy('jumlah_pengunjung', 'desc')
-                                  ->limit(6)
+                                  ->limit(10)
                                   ->get();
 
         // Mengirim data ke tampilan destinasi.blade.php

@@ -39,20 +39,25 @@ class ChatbotController extends Controller
         }
 
         $apiKey = env('GEMINI_API_KEY');
-        $response = Http::post(
-            "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key={$apiKey}",
-            [
-                'system_instruction' => [
-                    'parts' => [['text' => 'Kamu adalah asisten wisata Indonesia bernama NusaBot. Bantu wisatawan dengan informasi destinasi wisata, kuliner, budaya, dan rekomendasi perjalanan di Indonesia. Jawab dalam Bahasa Indonesia yang ramah dan informatif.']]
-                ],
-                'contents' => $contents,
-            ]
-        );
-
         $botReply = 'Maaf, saya sedang mengalami gangguan. Silakan coba lagi.';
-        if ($response->successful()) {
-            $data = $response->json();
-            $botReply = $data['candidates'][0]['content']['parts'][0]['text'] ?? $botReply;
+        
+        try {
+            $response = Http::timeout(30)->post(
+                "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={$apiKey}",
+                [
+                    'system_instruction' => [
+                        'parts' => [['text' => 'Kamu adalah asisten wisata Indonesia bernama NusaBot. Bantu wisatawan dengan informasi destinasi wisata, kuliner, budaya, dan rekomendasi perjalanan di Indonesia. Jawab dalam Bahasa Indonesia yang ramah dan informatif.']]
+                    ],
+                    'contents' => $contents,
+                ]
+            );
+
+            if ($response->successful()) {
+                $data = $response->json();
+                $botReply = $data['candidates'][0]['content']['parts'][0]['text'] ?? $botReply;
+            }
+        } catch (\Exception $e) {
+            // Log error if needed, botReply will remain the fallback message
         }
 
         ChatHistory::create([

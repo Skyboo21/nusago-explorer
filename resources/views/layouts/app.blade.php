@@ -30,23 +30,47 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center">
-                    <li class="nav-item"><a class="nav-link" href="/">Beranda</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('destinasi') }}">Destinasi</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('pemandu-lokal') }}">Pemandu Lokal</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('kuliner') }}">Kuliner</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center gap-1 text-nowrap" href="/">
+                            <i class="fa-solid fa-house"></i> Beranda
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center gap-1 text-nowrap" href="{{ route('destinasi') }}">
+                            <i class="fa-solid fa-location-dot"></i> Destinasi
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center gap-1 text-nowrap" href="{{ route('pemandu-lokal') }}">
+                            <i class="fa-solid fa-person-hiking"></i> Pemandu Lokal
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center gap-1 text-nowrap" href="{{ route('kuliner') }}">
+                            <i class="fa-solid fa-utensils"></i> Kuliner
+                        </a>
+                    </li>
 
                     @auth
-                        <li class="nav-item"><a class="nav-link" href="{{ route('maps.index') }}">
-                            <i class="fa-solid fa-map-location-dot me-1"></i>Peta</a>
+                        <li class="nav-item">
+                            <a class="nav-link d-flex align-items-center gap-1 text-nowrap" href="{{ route('maps.index') }}">
+                                <i class="fa-solid fa-map-location-dot"></i> Peta
+                            </a>
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('virtual-camera.index') }}">
-                            <i class="fa-solid fa-camera me-1"></i>Virtual</a>
+                        <li class="nav-item">
+                            <a class="nav-link d-flex align-items-center gap-1 text-nowrap" href="{{ route('virtual-camera.index') }}">
+                                <i class="fa-solid fa-camera"></i> Virtual
+                            </a>
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('chatbot.index') }}">
-                            <i class="fa-solid fa-robot me-1"></i>Chatbot</a>
+                        <li class="nav-item">
+                            <a class="nav-link d-flex align-items-center gap-1 text-nowrap" href="{{ route('chatbot.index') }}">
+                                <i class="fa-solid fa-robot"></i> Chatbot
+                            </a>
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('review.index') }}">
-                            <i class="fa-solid fa-star me-1"></i>Review</a>
+                        <li class="nav-item">
+                            <a class="nav-link d-flex align-items-center gap-1 text-nowrap" href="{{ route('review.index') }}">
+                                <i class="fa-solid fa-star"></i> Review
+                            </a>
                         </li>
 
                         <li class="nav-item dropdown ms-lg-3 mt-3 mt-lg-0">
@@ -66,15 +90,6 @@
                                         </a>
                                     </li>
                                 @endif
-                                <li><hr class="dropdown-divider"></li>
-                                <li>
-                                    <form action="{{ route('logout') }}" method="POST" class="d-inline">
-                                        @csrf
-                                        <button type="submit" class="dropdown-item text-danger small fw-bold py-2">
-                                            <i class="fa-solid fa-right-from-bracket me-2"></i>Keluar
-                                        </button>
-                                    </form>
-                                </li>
                             </ul>
                         </li>
                     @endauth
