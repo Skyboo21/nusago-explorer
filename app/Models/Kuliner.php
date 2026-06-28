@@ -9,11 +9,23 @@ class Kuliner extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['wisata_id', 'nama_kuliner', 'deskripsi_kuliner', 'harga_estimasi', 'gambar_kuliner'];
+    // PENTING: Sesuaikan nama tabel di database
+    protected $table = 'kuliner';
 
-    // Relasi balik ke tabel wisatas
-    public function wisata()
-    {
-        return $this->belongsTo(Wisata::class);
-    }
+    // Kolom yang boleh diisi massal (sesuai migration baru)
+    protected $fillable = [
+        'nama_kuliner',
+        'deskripsi_kuliner',
+        'daerah',
+        'kategori',
+        'harga_estimasi',
+        'gambar_kuliner',
+        'latitude',
+        'longitude',
+        'rating',
+        'is_halal'
+    ];
+
+    // HAPUS relasi wisata() karena tabel sekarang mandiri
+    // public function wisata() { ... } 
 }
