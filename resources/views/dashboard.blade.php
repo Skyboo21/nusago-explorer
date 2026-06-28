@@ -13,6 +13,7 @@
         :root {
             --primary-red: #e3342f;
             --primary-hover: #c82333;
+            --primary-accent: #F59E0B;
             --bg-light: #f4f7f6;
             --text-dark: #2c3e50;
             --text-muted: #7f8c8d;
@@ -101,7 +102,7 @@
         }
 
         .card-title i {
-            color: var(--primary-red);
+            color: var(--primary-accent);
         }
 
         /* Styling Foto Profil */
@@ -133,7 +134,7 @@
             align-items: center;
             justify-content: space-between;
             background: #fffafa;
-            border-left: 4px solid var(--primary-red);
+            border-left: 4px solid var(--primary-accent);
             padding: 15px;
             border-radius: 8px;
             margin-bottom: 15px;
@@ -142,7 +143,7 @@
         .stat-value {
             font-size: 1.5rem;
             font-weight: 700;
-            color: var(--primary-red);
+            color: var(--primary-accent);
         }
 
         /* Tombol Akses Cepat */
@@ -170,13 +171,13 @@
 
         .btn-quick i {
             font-size: 1.5rem;
-            color: var(--primary-red);
+            color: var(--primary-accent);
         }
 
         .btn-quick:hover {
-            background: var(--primary-red);
+            background: var(--primary-accent);
             color: white;
-            border-color: var(--primary-red);
+            border-color: var(--primary-accent);
         }
 
         .btn-quick:hover i {
@@ -204,7 +205,7 @@
 
         .activity-icon {
             background: #fffafa;
-            color: var(--primary-red);
+            color: var(--primary-accent);
             width: 40px;
             height: 40px;
             border-radius: 50%;
@@ -226,10 +227,9 @@
 </head>
 <body>
 
-    <!-- Navbar Sederhana -->
     <nav class="navbar">
-        <a href="/" class="navbar-brand">
-            <i class="fa-solid fa-map-location-dot"></i> NUSA GO EXPLORER
+        <a href="/" class="navbar-brand" style="color: #0F766E; gap: 0;">
+            Nusa Go Explorer<span style="color: var(--primary-accent);">.</span>
         </a>
         <div style="display: flex; gap: 20px; align-items: center;">
             <a href="/" style="text-decoration: none; color: var(--text-dark); font-weight: 600;">
@@ -259,7 +259,7 @@
                     <img src="{{ $userProfile['avatar'] }}" alt="Profil" class="profile-img">
                     <h2 class="profile-name">{{ $userProfile['nama'] }}</h2>
                     <div class="profile-location">
-                        <i class="fa-solid fa-location-dot" style="color: var(--primary-red);"></i> {{ $userProfile['asal'] }}
+                        <i class="fa-solid fa-location-dot" style="color: var(--primary-accent);"></i> {{ $userProfile['asal'] }}
                     </div>
                 </div>
                 <div>
@@ -294,14 +294,14 @@
                         <small>Total Poin</small>
                         <div class="stat-value">{{ $userStats['total_poin'] }}</div>
                     </div>
-                    <i class="fa-solid fa-star" style="color: var(--primary-red); opacity: 0.2; font-size: 2rem;"></i>
+                    <i class="fa-solid fa-star" style="color: var(--primary-accent); opacity: 0.2; font-size: 2rem;"></i>
                 </div>
                 <div class="stat-box">
                     <div>
                         <small>Lokasi Dikunjungi</small>
                         <div class="stat-value">{{ $userStats['lokasi_dikunjungi'] }}</div>
                     </div>
-                    <i class="fa-solid fa-location-dot" style="color: var(--primary-red); opacity: 0.2; font-size: 2rem;"></i>
+                    <i class="fa-solid fa-location-dot" style="color: var(--primary-accent); opacity: 0.2; font-size: 2rem;"></i>
                 </div>
             </div>
 

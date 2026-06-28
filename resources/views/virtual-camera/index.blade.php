@@ -1,16 +1,22 @@
 @extends('layouts.app')
 
 @section('content')
+<style>
+    .btn-teal { background-color: #0F766E; color: white; border: none; }
+    .btn-teal:hover { background-color: #0b5c56; color: white; }
+    .badge-soft-amber { background-color: #FEF3C7 !important; color: #92400E !important; }
+    .text-accent { color: #F59E0B !important; }
+</style>
 <div class="container py-5">
     <div class="text-center mb-5">
-        <h2 class="fw-bold">?? Eksplorasi Kamera Virtual</h2>
+        <h2 class="fw-bold">Eksplorasi Kamera Virtual</h2>
         <p class="text-muted">Jelajahi destinasi wisata Indonesia secara virtual dengan Google Street View</p>
     </div>
 
     <div class="d-flex gap-2 flex-wrap justify-content-center mb-4">
-        <button class="btn btn-danger rounded-pill px-4 filter-btn active" data-filter="all">Semua</button>
+        <button class="btn btn-teal text-white rounded-pill px-4 filter-btn active" data-filter="all">Semua</button>
         @foreach($kategori as $k)
-            <button class="btn btn-outline-danger rounded-pill px-4 filter-btn" data-filter="{{ $k }}">{{ $k }}</button>
+            <button class="btn btn-outline-secondary rounded-pill px-4 filter-btn" data-filter="{{ $k }}">{{ $k }}</button>
         @endforeach
     </div>
 
@@ -24,17 +30,16 @@
                             onmouseover="this.style.transform='scale(1.05)'"
                             onmouseout="this.style.transform='scale(1)'"
                             onerror="this.src='https://via.placeholder.com/400x200?text={{ urlencode($d['nama']) }}'">
-                        <span class="position-absolute top-0 end-0 m-2 badge rounded-pill"
-                            style="background:rgba(230,57,70,0.9);">{{ $d['kategori'] }}</span>
+                        <span class="position-absolute top-0 end-0 m-2 badge rounded-pill badge-soft-amber">{{ $d['kategori'] }}</span>
                     </div>
                     <div class="card-body p-4">
                         <h6 class="fw-bold mb-1">{{ $d['nama'] }}</h6>
                         <small class="text-muted d-block mb-2">
-                            <i class="fa-solid fa-location-dot text-danger me-1"></i>{{ $d['lokasi'] }}
+                            <i class="fa-solid fa-location-dot text-accent me-1"></i>{{ $d['lokasi'] }}
                         </small>
                         <p class="text-secondary small mb-3">{{ $d['deskripsi'] }}</p>
                         <a href="{{ route('virtual-camera.show', ['nama' => $d['nama']]) }}"
-                            class="btn w-100 text-white fw-semibold rounded-3" style="background:#e63946;">
+                            class="btn w-100 text-white fw-semibold rounded-3 btn-teal">
                             <i class="fa-solid fa-street-view me-2"></i>Lihat Street View
                         </a>
                     </div>
@@ -48,11 +53,11 @@
 document.querySelectorAll('.filter-btn').forEach(btn => {
     btn.addEventListener('click', function() {
         document.querySelectorAll('.filter-btn').forEach(b => {
-            b.classList.remove('active', 'btn-danger');
-            b.classList.add('btn-outline-danger');
+            b.classList.remove('active', 'btn-teal', 'text-white');
+            b.classList.add('btn-outline-secondary');
         });
-        this.classList.add('active', 'btn-danger');
-        this.classList.remove('btn-outline-danger');
+        this.classList.add('active', 'btn-teal', 'text-white');
+        this.classList.remove('btn-outline-secondary');
         const filter = this.dataset.filter;
         document.querySelectorAll('.destinasi-card').forEach(card => {
             card.style.display = (filter === 'all' || card.dataset.kategori === filter) ? '' : 'none';

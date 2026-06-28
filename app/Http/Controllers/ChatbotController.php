@@ -38,6 +38,12 @@ class ChatbotController extends Controller
             ];
         }
 
+        // Gemini API requires the conversation to strictly alternate and START with 'user'.
+        // If it starts with 'model', remove the first element.
+        while (count($contents) > 0 && $contents[0]['role'] === 'model') {
+            array_shift($contents);
+        }
+
         $apiKey = env('GEMINI_API_KEY');
         $botReply = 'Maaf, saya sedang mengalami gangguan. Silakan coba lagi.';
         
@@ -55,9 +61,11 @@ class ChatbotController extends Controller
             if ($response->successful()) {
                 $data = $response->json();
                 $botReply = $data['candidates'][0]['content']['parts'][0]['text'] ?? $botReply;
+            } else {
+                \Illuminate\Support\Facades\Log::error('Gemini API Error: ' . $response->body());
             }
         } catch (\Exception $e) {
-            // Log error if needed, botReply will remain the fallback message
+            \Illuminate\Support\Facades\Log::error('Gemini Exception: ' . $e->getMessage());
         }
 
         ChatHistory::create([

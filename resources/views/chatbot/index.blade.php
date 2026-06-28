@@ -1,4 +1,4 @@
-@extends('layouts.app')
+ï»¿@extends('layouts.app')
 
 @section('content')
 <div class="container py-5">
@@ -6,20 +6,20 @@
         <div class="col-lg-8">
             <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
                 <div class="card-header border-0 py-3 px-4 d-flex align-items-center justify-content-between"
-                    style="background: linear-gradient(135deg, #e63946, #c1121f);">
+                    style="background: #0F766E;">
                     <div class="d-flex align-items-center gap-3">
                         <div class="bg-white rounded-circle d-flex align-items-center justify-content-center"
                             style="width:45px; height:45px;">
-                            <i class="fa-solid fa-robot text-danger fs-5"></i>
+                            <i class="fa-solid fa-robot fs-5" style="color: #0F766E;"></i>
                         </div>
                         <div>
-                            <div class="fw-bold text-white">NusaBot ??</div>
-                            <small class="text-white opacity-75">Asisten Wisata Indonesia · Online</small>
+                            <div class="fw-bold text-white">NusaBot</div>
+                            <small class="text-white opacity-75">Asisten Wisata Indonesia &bull; Online</small>
                         </div>
                     </div>
                     <form action="{{ route('chatbot.clear') }}" method="POST">
                         @csrf
-                        <button class="btn btn-sm btn-outline-light rounded-3"
+                        <button class="btn btn-sm rounded-3" style="border: 1px solid rgba(255,255,255,0.4); color: white;"
                             onclick="return confirm('Hapus semua riwayat chat?')">
                             <i class="fa-solid fa-trash me-1"></i>Hapus Riwayat
                         </button>
@@ -30,7 +30,7 @@
                     style="height:450px; overflow-y:auto; background:#f8f9fa;">
 
                     <div class="d-flex gap-2 mb-3">
-                        <img src="https://ui-avatars.com/api/?name=NB&background=e63946&color=fff&size=35"
+                        <img src="https://ui-avatars.com/api/?name=NB&background=0F766E&color=fff&size=35"
                             class="rounded-circle flex-shrink-0" width="35" height="35">
                         <div class="bg-white rounded-4 rounded-tl-0 px-3 py-2 shadow-sm" style="max-width:80%;">
                             <p class="mb-0">Halo! Aku <strong>NusaBot</strong> ??, asisten wisata Indonesia. Tanya apa saja tentang destinasi wisata, kuliner, atau budaya Indonesia!</p>
@@ -40,16 +40,16 @@
                     @foreach($histories as $chat)
                         @if($chat->role === 'user')
                             <div class="d-flex flex-row-reverse gap-2 mb-3">
-                                <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=e3342f&color=fff&size=35"
+                                <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=F59E0B&color=fff&size=35"
                                     class="rounded-circle flex-shrink-0" width="35" height="35">
                                 <div class="rounded-4 rounded-tr-0 px-3 py-2 text-white"
-                                    style="max-width:80%; background:#e63946;">
+                                    style="max-width:80%; background:#0F766E;">
                                     <p class="mb-0">{{ $chat->message }}</p>
                                 </div>
                             </div>
                         @else
                             <div class="d-flex gap-2 mb-3">
-                                <img src="https://ui-avatars.com/api/?name=NB&background=e63946&color=fff&size=35"
+                                <img src="https://ui-avatars.com/api/?name=NB&background=0F766E&color=fff&size=35"
                                     class="rounded-circle flex-shrink-0" width="35" height="35">
                                 <div class="bg-white rounded-4 rounded-tl-0 px-3 py-2 shadow-sm" style="max-width:80%;">
                                     <div class="mb-0 chatbot-markdown">{!! \Illuminate\Support\Str::markdown($chat->message) !!}</div>
@@ -59,7 +59,7 @@
                     @endforeach
 
                     <div id="loadingIndicator" class="d-none d-flex gap-2 mb-3">
-                        <img src="https://ui-avatars.com/api/?name=NB&background=e63946&color=fff&size=35"
+                        <img src="https://ui-avatars.com/api/?name=NB&background=0F766E&color=fff&size=35"
                             class="rounded-circle flex-shrink-0" width="35" height="35">
                         <div class="bg-white rounded-4 px-3 py-2 shadow-sm">
                             <div class="d-flex gap-1 align-items-center" style="height:20px;">
@@ -73,25 +73,25 @@
 
                 <div class="px-4 py-2 border-top bg-white">
                     <div class="d-flex gap-2 flex-wrap">
-                        <button class="btn btn-sm btn-outline-danger rounded-pill quick-q"
-                            data-q="Rekomendasikan destinasi wisata terbaik di Bali">??? Wisata Bali</button>
-                        <button class="btn btn-sm btn-outline-danger rounded-pill quick-q"
-                            data-q="Apa kuliner khas Jawa Timur yang wajib dicoba?">?? Kuliner Jatim</button>
-                        <button class="btn btn-sm btn-outline-danger rounded-pill quick-q"
-                            data-q="Tempat wisata alam terbaik di Indonesia">?? Wisata Alam</button>
-                        <button class="btn btn-sm btn-outline-danger rounded-pill quick-q"
-                            data-q="Tips perjalanan ke Raja Ampat">?? Raja Ampat</button>
+                        <button class="btn btn-sm rounded-pill quick-q" style="border: 1px solid #ced4da; color: #495057; transition: 0.3s;" onmouseover="this.style.borderColor='#0F766E'; this.style.color='#0F766E';" onmouseout="this.style.borderColor='#ced4da'; this.style.color='#495057';"
+                            data-q="Rekomendasikan destinasi wisata terbaik di Bali">Wisata Bali</button>
+                        <button class="btn btn-sm rounded-pill quick-q" style="border: 1px solid #ced4da; color: #495057; transition: 0.3s;" onmouseover="this.style.borderColor='#0F766E'; this.style.color='#0F766E';" onmouseout="this.style.borderColor='#ced4da'; this.style.color='#495057';"
+                            data-q="Apa kuliner khas Jawa Timur yang wajib dicoba?">Kuliner Jatim</button>
+                        <button class="btn btn-sm rounded-pill quick-q" style="border: 1px solid #ced4da; color: #495057; transition: 0.3s;" onmouseover="this.style.borderColor='#0F766E'; this.style.color='#0F766E';" onmouseout="this.style.borderColor='#ced4da'; this.style.color='#495057';"
+                            data-q="Tempat wisata alam terbaik di Indonesia">Wisata Alam</button>
+                        <button class="btn btn-sm rounded-pill quick-q" style="border: 1px solid #ced4da; color: #495057; transition: 0.3s;" onmouseover="this.style.borderColor='#0F766E'; this.style.color='#0F766E';" onmouseout="this.style.borderColor='#ced4da'; this.style.color='#495057';"
+                            data-q="Tips perjalanan ke Raja Ampat">Raja Ampat</button>
                     </div>
                 </div>
 
                 <div class="card-footer border-0 bg-white p-3">
-                    <div class="input-group">
-                        <button id="voiceBtn" class="btn btn-outline-secondary rounded-start-3" title="Voice Input">
+                    <div class="input-group" style="border: 1px solid #ced4da; border-radius: 0.5rem; transition: 0.3s; overflow: hidden;" id="chatInputGroup">
+                        <button id="voiceBtn" class="btn border-0 rounded-0" style="background: white; color: #6c757d;" title="Voice Input">
                             <i class="fa-solid fa-microphone"></i>
                         </button>
-                        <input type="text" id="chatInput" class="form-control border-start-0 border-end-0"
-                            placeholder="Tanya tentang wisata Indonesia..." autocomplete="off">
-                        <button id="sendBtn" class="btn text-white rounded-end-3 px-4" style="background:#e63946;">
+                        <input type="text" id="chatInput" class="form-control border-start-0 border-end-0 shadow-none"
+                            placeholder="Tanya tentang wisata Indonesia..." autocomplete="off" onfocus="document.getElementById('chatInputGroup').style.borderColor='#0F766E';" onblur="document.getElementById('chatInputGroup').style.borderColor='#ced4da';">
+                        <button id="sendBtn" class="btn text-white rounded-end-3 px-4" style="background:#0F766E;">
                             <i class="fa-solid fa-paper-plane"></i>
                         </button>
                     </div>
@@ -105,12 +105,13 @@
 </div>
 
 <style>
-.typing-dot { width:8px; height:8px; background:#e63946; border-radius:50%; animation:typing 1s infinite ease-in-out; display:inline-block; }
+.typing-dot { width:8px; height:8px; background:#0F766E; border-radius:50%; animation:typing 1s infinite ease-in-out; display:inline-block; }
 .typing-dot:nth-child(2) { animation-delay:0.2s; }
 .typing-dot:nth-child(3) { animation-delay:0.4s; }
 @keyframes typing { 0%,100%{transform:translateY(0);opacity:0.4} 50%{transform:translateY(-6px);opacity:1} }
-#voiceBtn.recording { background:#e63946; color:white; animation:pulse 1s infinite; }
-@keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(230,57,70,0.4)} 50%{box-shadow:0 0 0 8px rgba(230,57,70,0)} }
+#voiceBtn.recording { background:#0F766E; color:white; animation:pulse 1s infinite; }
+@keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(15,118,110,0.4)} 50%{box-shadow:0 0 0 8px rgba(15,118,110,0)} }
+.chatbot-markdown { line-height: 1.6; }
 .chatbot-markdown p:last-child { margin-bottom: 0; }
 .chatbot-markdown ul, .chatbot-markdown ol { padding-left: 1.2rem; margin-bottom: 0.5rem; }
 .chatbot-markdown p { margin-bottom: 0.5rem; }
@@ -123,7 +124,7 @@ const sendBtn    = document.getElementById('sendBtn');
 const voiceBtn   = document.getElementById('voiceBtn');
 const loadingEl  = document.getElementById('loadingIndicator');
 const csrfToken  = '{{ csrf_token() }}';
-const userAvatar = 'https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=e3342f&color=fff&size=35';
+const userAvatar = 'https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=F59E0B&color=fff&size=35';
 
 function scrollBottom() { chatArea.scrollTop = chatArea.scrollHeight; }
 scrollBottom();
@@ -132,7 +133,7 @@ function addUserBubble(text) {
     const div = document.createElement('div');
     div.className = 'd-flex flex-row-reverse gap-2 mb-3';
     div.innerHTML = `<img src="${userAvatar}" class="rounded-circle flex-shrink-0" width="35" height="35">
-        <div class="rounded-4 rounded-tr-0 px-3 py-2 text-white" style="max-width:80%; background:#e63946;">
+        <div class="rounded-4 rounded-tr-0 px-3 py-2 text-white" style="max-width:80%; background:#0F766E;">
             <p class="mb-0">${text}</p></div>`;
     chatArea.insertBefore(div, loadingEl);
     scrollBottom();
@@ -142,7 +143,7 @@ function addBotBubble(text, isHtml = false) {
     const div = document.createElement('div');
     div.className = 'd-flex gap-2 mb-3';
     let content = isHtml ? text : text.replace(/\n/g, '<br>');
-    div.innerHTML = `<img src="https://ui-avatars.com/api/?name=NB&background=e63946&color=fff&size=35"
+    div.innerHTML = `<img src="https://ui-avatars.com/api/?name=NB&background=0F766E&color=fff&size=35"
         class="rounded-circle flex-shrink-0" width="35" height="35">
         <div class="bg-white rounded-4 rounded-tl-0 px-3 py-2 shadow-sm chatbot-markdown" style="max-width:80%; overflow-x: auto;">
             <div class="mb-0">${content}</div></div>`;
@@ -201,3 +202,4 @@ if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
 }
 </script>
 @endsection
+

@@ -1,59 +1,90 @@
 @extends('layouts.app')
 
 @section('content')
+<style>
+    .text-accent { color: #F59E0B !important; }
+    .bg-accent { background-color: #F59E0B !important; }
+    .bg-accent-subtle { background-color: #FEF3C7 !important; }
+    .floating-notification {
+        position: absolute;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: white;
+        padding: 10px 24px;
+        border-radius: 50px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    .hover-lift { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .hover-lift:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.1) !important; }
+    .summary-icon-box { width: 56px; height: 56px; display: flex; align-items: center; justify-content: center; border-radius: 16px; margin: 0 auto 16px auto; }
+    .bg-teal-subtle { background-color: #F0FDF4 !important; color: #0F766E !important; }
+    .bg-amber-subtle { background-color: #FFFBEB !important; color: #F59E0B !important; }
+    .bg-navy-subtle { background-color: #F8FAFC !important; color: #1E293B !important; }
+    .map-container { border: 8px solid white; box-shadow: 0 20px 40px rgba(0,0,0,0.06); border-radius: 24px !important; }
+</style>
 <div class="container py-5">
-    <div class="text-center mb-4">
-        <h2 class="fw-bold">?? Peta Wisata Real Time</h2>
-        <p class="text-muted">Temukan destinasi wisata terdekat dari lokasi kamu</p>
+    <div class="text-center mb-5">
+        <h2 class="fw-bold text-dark mb-3">Peta Wisata Real Time</h2>
+        <p class="text-secondary fs-5">Temukan destinasi wisata terdekat dari lokasi kamu</p>
     </div>
 
-    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+    <div class="card border-0 map-container overflow-hidden mb-5">
         <div class="card-body p-0 position-relative">
-            <div id="map" style="height: 500px; width: 100%;"></div>
+            <div id="map" style="height: 550px; width: 100%;"></div>
 
             {{-- Loading Overlay --}}
-            <div id="loadingOverlay" class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
-                style="background: rgba(255,255,255,0.85); z-index: 999;">
-                <div class="text-center">
-                    <div class="spinner-border text-danger mb-3" role="status"></div>
-                    <p class="fw-semibold text-danger">Mendeteksi lokasi kamu...</p>
-                </div>
+            <div id="loadingOverlay" class="floating-notification">
+                <div class="spinner-border spinner-border-sm" style="color: #0F766E;" role="status"></div>
+                <span class="fw-semibold text-dark mb-0">Mendeteksi lokasi kamu...</span>
             </div>
         </div>
     </div>
 
     {{-- Info Panel --}}
-    <div class="row g-4 mt-2">
+    <div class="row g-4 mt-2 mb-5">
         <div class="col-md-4">
-            <div class="card border-0 shadow-sm rounded-4 p-4 text-center">
-                <i class="fa-solid fa-location-crosshairs text-danger fs-3 mb-2"></i>
-                <div class="fw-bold">Lokasi Kamu</div>
-                <small id="userCoords" class="text-muted">Mendeteksi...</small>
+            <div class="card border-0 shadow-sm rounded-4 p-4 text-center hover-lift h-100">
+                <div class="summary-icon-box bg-teal-subtle">
+                    <i class="fa-solid fa-location-crosshairs fs-4"></i>
+                </div>
+                <div class="fw-bold text-dark fs-5 mb-1">Lokasi Kamu</div>
+                <small id="userCoords" class="text-secondary fw-medium">Mendeteksi...</small>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card border-0 shadow-sm rounded-4 p-4 text-center">
-                <i class="fa-solid fa-mountain-sun text-danger fs-3 mb-2"></i>
-                <div class="fw-bold">Wisata Terdekat</div>
-                <small id="nearestWisata" class="text-muted">Mendeteksi...</small>
+            <div class="card border-0 shadow-sm rounded-4 p-4 text-center hover-lift h-100">
+                <div class="summary-icon-box bg-amber-subtle">
+                    <i class="fa-solid fa-mountain-sun fs-4"></i>
+                </div>
+                <div class="fw-bold text-dark fs-5 mb-1">Wisata Terdekat</div>
+                <small id="nearestWisata" class="text-secondary fw-medium">Mendeteksi...</small>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card border-0 shadow-sm rounded-4 p-4 text-center">
-                <i class="fa-solid fa-route text-danger fs-3 mb-2"></i>
-                <div class="fw-bold">Jarak Terdekat</div>
-                <small id="nearestDistance" class="text-muted">Menghitung...</small>
+            <div class="card border-0 shadow-sm rounded-4 p-4 text-center hover-lift h-100">
+                <div class="summary-icon-box bg-navy-subtle">
+                    <i class="fa-solid fa-route fs-4"></i>
+                </div>
+                <div class="fw-bold text-dark fs-5 mb-1">Jarak Terdekat</div>
+                <small id="nearestDistance" class="text-secondary fw-medium">Menghitung...</small>
             </div>
         </div>
     </div>
 
     {{-- Daftar Wisata Terdekat --}}
-    <div class="card border-0 shadow-sm rounded-4 mt-4">
-        <div class="card-body p-4">
-            <h6 class="fw-bold mb-3"><i class="fa-solid fa-list text-danger me-2"></i>Destinasi Wisata Terdekat</h6>
-            <div id="wisataList" class="row g-3">
-                <div class="text-center text-muted py-3">
-                    <div class="spinner-border spinner-border-sm text-danger me-2"></div>
+    <div class="card border-0 shadow-sm rounded-4 mt-4 overflow-hidden">
+        <div class="card-header bg-white border-bottom p-4">
+            <h5 class="fw-bold mb-0" style="color: #0F766E;"><i class="fa-solid fa-list text-accent me-2"></i>Destinasi Wisata Terdekat</h5>
+        </div>
+        <div class="card-body p-4 bg-light">
+            <div id="wisataList" class="row g-4">
+                <div class="text-center text-muted py-4">
+                    <div class="spinner-border spinner-border-sm text-accent me-2"></div>
                     Menghitung jarak...
                 </div>
             </div>
@@ -66,7 +97,14 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <script>
-
+const destinasi = [
+    { nama: "Taman Nasional Komodo", lat: -8.5435, lng: 119.4231, lokasi: "Kabupaten Manggarai Barat, NTT", kategori: "Alam" },
+    { nama: "Raja Ampat", lat: -0.2333, lng: 130.5167, lokasi: "Kabupaten Raja Ampat, Papua Barat Daya", kategori: "Alam" },
+    { nama: "Wae Rebo", lat: -8.7695, lng: 120.2828, lokasi: "Manggarai, NTT", kategori: "Budaya" },
+    { nama: "Candi Borobudur", lat: -7.6079, lng: 110.2038, lokasi: "Magelang, Jawa Tengah", kategori: "Sejarah" },
+    { nama: "Nusa Penida", lat: -8.7278, lng: 115.5444, lokasi: "Klungkung, Bali", kategori: "Alam" },
+    { nama: "Gunung Bromo", lat: -7.9425, lng: 112.9530, lokasi: "Jawa Timur", kategori: "Alam" }
+];
 
 // Hitung jarak (Haversine formula)
 function hitungJarak(lat1, lng1, lat2, lng2) {
@@ -87,7 +125,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 // Icon custom merah
 const redIcon = L.divIcon({
-    html: '<i class="fa-solid fa-location-dot" style="color:#e63946; font-size:24px;"></i>',
+    html: '<i class="fa-solid fa-location-dot" style="color:#F59E0B; font-size:24px;"></i>',
     className: '',
     iconSize: [24, 24],
     iconAnchor: [12, 24],
@@ -115,7 +153,7 @@ if (navigator.geolocation) {
             // Marker user
             L.marker([userLat, userLng], { icon: userIcon })
                 .addTo(map)
-                .bindPopup('<strong>?? Lokasi Kamu</strong>')
+                .bindPopup('<strong style="color: #0F766E;">Lokasi Kamu</strong>')
                 .openPopup();
 
             map.setView([userLat, userLng], 8);
@@ -136,19 +174,19 @@ if (navigator.geolocation) {
             // Render daftar wisata
             const listEl = document.getElementById('wisataList');
             listEl.innerHTML = withDistance.map((d, i) => `
-                <div class="col-md-6">
-                    <div class="d-flex align-items-center gap-3 p-3 rounded-3" style="background:#f8f9fa;">
-                        <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0"
-                            style="width:40px; height:40px; background:${i === 0 ? '#e63946' : '#fff0f0'};">
-                            <span class="fw-bold ${i === 0 ? 'text-white' : 'text-danger'}">${i + 1}</span>
+                <div class="col-lg-6">
+                    <div class="d-flex align-items-center gap-3 p-4 rounded-4 shadow-sm bg-white border hover-lift h-100" style="border-color: rgba(0,0,0,0.05) !important;">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 shadow-sm"
+                            style="width:48px; height:48px; background:${i === 0 ? '#0F766E' : '#FEF3C7'};">
+                            <span class="fw-bold fs-5 ${i === 0 ? 'text-white' : 'text-accent'}">${i + 1}</span>
                         </div>
                         <div class="flex-grow-1">
-                            <div class="fw-semibold">${d.nama}</div>
-                            <small class="text-muted">${d.lokasi}</small>
+                            <div class="fw-bold text-dark fs-5 mb-1">${d.nama}</div>
+                            <small class="text-secondary"><i class="fa-solid fa-map-pin me-1 opacity-50"></i>${d.lokasi}</small>
                         </div>
-                        <div class="text-end">
-                            <div class="fw-bold text-danger">${d.jarak < 1 ? (d.jarak * 1000).toFixed(0) + ' m' : d.jarak.toFixed(1) + ' km'}</div>
-                            <small class="text-muted">${d.kategori}</small>
+                        <div class="text-end ps-3 border-start">
+                            <div class="fw-bold fs-5 text-dark">${d.jarak < 1 ? (d.jarak * 1000).toFixed(0) + ' <span class="fs-6 fw-normal text-muted">m</span>' : d.jarak.toFixed(1) + ' <span class="fs-6 fw-normal text-muted">km</span>'}</div>
+                            <span class="badge bg-light text-secondary border mt-1">${d.kategori}</span>
                         </div>
                     </div>
                 </div>

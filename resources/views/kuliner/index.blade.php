@@ -25,13 +25,13 @@
 
             <div class="d-flex gap-2 pe-1 flex-wrap">
                 <!-- Tombol Terdekat (GPS User) -->
-                <button id="btnNearby" class="btn btn-danger rounded-pill px-3 fw-semibold d-flex align-items-center gap-2 btn-sm">
+                <button id="btnNearby" class="btn btn-accent rounded-pill px-4 py-2 fw-semibold d-flex align-items-center gap-2 shadow-sm">
                     <i class="fa-solid fa-location-crosshairs"></i> <span class="d-none d-sm-inline">Terdekat</span>
                 </button>
                 
                 <!-- Dropdown Sekitar Wisata -->
                 <div class="dropdown">
-                    <button class="btn btn-outline-danger rounded-pill px-3 dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown">
+                    <button class="btn btn-outline-warning rounded-pill px-3 dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown">
                         📍 Sekitar Wisata
                     </button>
                     <ul class="dropdown-menu border-0 shadow-sm rounded-3 mt-2" style="max-height: 300px; overflow-y: auto;">
@@ -65,7 +65,7 @@
 
         <!-- LOADING STATE -->
         <div id="loadingState" class="text-center py-5 d-none">
-            <div class="spinner-border text-danger mb-3" role="status"></div>
+            <div class="spinner-border text-warning mb-3" role="status"></div>
             <p class="text-muted fw-medium">Mencari kuliner di sekitarmu...</p>
         </div>
 
@@ -79,38 +79,47 @@
         <!-- GRID KULINER (DINAMIS DARI DATABASE AWAL) -->
         <div id="kulinerGrid" class="row g-3">
             @forelse($kuliners as $item)
+                @php
+                    $foodImages = [
+                        'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500&q=80',
+                        'https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=500&q=80',
+                        'https://images.unsplash.com/photo-1572656631137-7935297eff55?w=500&q=80',
+                        'https://images.unsplash.com/photo-1564834724105-918b73d1b9e0?w=500&q=80'
+                    ];
+                    $fallbackImg = $foodImages[$loop->index % count($foodImages)];
+                @endphp
                 <div class="col-6 col-md-4 col-lg-3 item-kuliner" data-type="{{ $item->kategori }}">
-                    <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden hover-shadow transition-all">
-                        <div class="position-relative" style="height: 160px; overflow: hidden;">
-                            <img src="{{ $item->gambar_kuliner ?? 'https://loremflickr.com/400/300/food?random=' . $item->id }}" 
+                    <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden hover-shadow transition-all bg-white">
+                        <div class="position-relative" style="height: 180px; overflow: hidden; background: #f8f9fa;">
+                            <img src="{{ $item->gambar_kuliner ?? $fallbackImg }}" 
                                  class="w-100 h-100 object-fit-cover" alt="{{ $item->nama_kuliner }}">
-                            <span class="position-absolute top-0 start-0 m-2 badge bg-white text-danger fw-bold shadow-sm" style="font-size: 0.65rem;">
-                                {{ $item->daerah }}
+                            <span class="position-absolute top-0 end-0 m-3 badge badge-glass text-dark fw-bold shadow-sm px-3 py-2 rounded-pill" style="font-size: 0.75rem;">
+                                <i class="fa-solid fa-location-dot text-accent me-1"></i>{{ $item->daerah }}
                             </span>
                         </div>
-                        <div class="card-body p-3">
-                            <div class="d-flex justify-content-between align-items-start mb-2">
-                                <h6 class="card-title fw-bold text-dark mb-0 lh-sm" style="font-size: 0.95rem;">{{ $item->nama_kuliner }}</h6>
-                                <div class="d-flex align-items-center gap-1 bg-warning-subtle px-1 py-0 rounded-2">
-                                    <i class="fa-solid fa-star text-warning" style="font-size: 0.6rem;"></i>
-                                    <small class="fw-bold text-dark" style="font-size: 0.7rem;">{{ number_format($item->rating, 1) }}</small>
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <h6 class="card-title fw-bold text-dark mb-0 lh-base" style="font-size: 1.1rem; letter-spacing: -0.3px;">{{ $item->nama_kuliner }}</h6>
+                                <div class="d-flex align-items-center gap-1 bg-accent bg-opacity-10 px-2 py-1 rounded-3">
+                                    <i class="fa-solid fa-star text-accent" style="font-size: 0.7rem;"></i>
+                                    <small class="fw-bold text-accent" style="font-size: 0.8rem;">{{ number_format($item->rating, 1) }}</small>
                                 </div>
                             </div>
-                            <p class="card-text text-muted mb-3 text-truncate" style="font-size: 0.8rem;">{{ Str::limit($item->deskripsi_kuliner, 50) }}</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="badge {{ $item->is_halal ? 'bg-success-subtle text-success' : 'bg-secondary-subtle text-secondary' }} fw-medium" style="font-size: 0.65rem;">
-                                    {{ $item->is_halal ? 'Halal' : 'Non-Halal' }}
+                            <p class="card-text text-muted mb-4 text-truncate" style="font-size: 0.85rem; line-height: 1.5;">{{ Str::limit($item->deskripsi_kuliner, 50) }}</p>
+                            <div class="d-flex justify-content-between align-items-center mt-auto pt-2 border-top border-light">
+                                <span class="badge {{ $item->is_halal ? 'bg-success bg-opacity-10 text-success' : 'bg-danger bg-opacity-10 text-danger' }} fw-medium px-2 py-1 rounded-2" style="font-size: 0.7rem;">
+                                    {!! $item->is_halal ? '<i class="fa-solid fa-certificate me-1"></i>Halal' : '<i class="fa-solid fa-circle-exclamation me-1"></i>Non-Halal' !!}
                                 </span>
-                                <span class="text-danger fw-bold" style="font-size: 0.9rem;">Rp {{ number_format($item->harga_estimasi, 0, ',', '.') }}</span>
+                                <span class="text-dark fw-bold" style="font-size: 1rem;">{{ $item->harga_estimasi > 0 ? 'Rp ' . number_format($item->harga_estimasi, 0, ',', '.') : 'Rp 25k - 50k' }}</span>
                             </div>
                         </div>
                     </div>
                 </div>
             @empty
-                <div class="col-12 text-center py-5">
-                    <i class="fa-solid fa-utensils text-muted mb-3 fs-1"></i>
-                    <h6 class="fw-bold text-dark">Belum ada data kuliner</h6>
-                    <p class="text-muted small">Data akan segera ditambahkan oleh admin.</p>
+                <div class="col-12 text-center py-5 my-5">
+                    <i class="fa-solid fa-utensils text-muted mb-3 fs-1 opacity-25"></i>
+                    <h5 class="fw-bold text-dark">Belum ada data kuliner</h5>
+                    <p class="text-muted">Data akan segera ditambahkan oleh admin.</p>
                 </div>
             @endforelse
         </div>
@@ -119,7 +128,13 @@
 </div>
 
 <style>
-    .hover-shadow:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.08) !important; transition: all 0.3s ease; }
+    .text-accent { color: #F59E0B !important; }
+    .bg-accent { background-color: #F59E0B !important; color: white !important; }
+    .btn-accent { background-color: #F59E0B; color: white; border: none; transition: all 0.3s ease; }
+    .btn-accent:hover { background-color: #d97706; color: white; transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(245, 158, 11, 0.3); }
+    .badge-glass { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.3); }
+    .hover-shadow { transition: transform 0.3s ease, box-shadow 0.3s ease; border: 1px solid rgba(0,0,0,0.05); }
+    .hover-shadow:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.08) !important; }
     .object-fit-cover { object-fit: cover; }
     #searchInput:focus { outline: none; box-shadow: none; }
 </style>
@@ -153,36 +168,51 @@
             grid.classList.remove('d-none');
             empty.classList.add('d-none');
             
-            data.forEach(item => {
+            data.forEach((item, index) => {
                 const name = getVal(item, 'name') || getVal(item, 'nama_kuliner', 'Tanpa Nama');
+                
+                const foodImages = [
+                    'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500&q=80',
+                    'https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=500&q=80',
+                    'https://images.unsplash.com/photo-1572656631137-7935297eff55?w=500&q=80',
+                    'https://images.unsplash.com/photo-1564834724105-918b73d1b9e0?w=500&q=80'
+                ];
                 const image = getVal(item, 'image') || 
                               getVal(item, 'gambar_kuliner') || 
-                              `https://loremflickr.com/400/300/food,restaurant?random=${item.id}`;
-                const region = getVal(item, 'region') || getVal(item, 'daerah', 'Lokal');
-                const desc = getVal(item, 'description') || getVal(item, 'deskripsi_kuliner', 'Kuliner lezat di sekitar Anda.');
+                              foodImages[index % foodImages.length];
+                              
+                const region = getVal(item, 'region') || getVal(item, 'daerah', 'Sekitar Anda');
+                const desc = getVal(item, 'description') || getVal(item, 'deskripsi_kuliner', 'Kuliner lezat di sekitar Anda yang patut dicoba.');
                 const price = getVal(item, 'price') || getVal(item, 'harga_estimasi', 0);
                 const isHalal = (getVal(item, 'is_halal') === 'yes' || getVal(item, 'is_halal') === true);
                 const rating = getVal(item, 'rating') || 4.0;
                 
+                const formattedPrice = price > 0 ? `Rp ${new Intl.NumberFormat('id-ID').format(price)}` : 'Rp 15k - 30k';
+                const halalBadge = isHalal 
+                    ? '<span class="badge bg-success bg-opacity-10 text-success fw-medium px-2 py-1 rounded-2" style="font-size: 0.7rem;"><i class="fa-solid fa-certificate me-1"></i>Halal</span>'
+                    : '<span class="badge bg-danger bg-opacity-10 text-danger fw-medium px-2 py-1 rounded-2" style="font-size: 0.7rem;"><i class="fa-solid fa-circle-exclamation me-1"></i>Non-Halal</span>';
+
                 const cardHtml = `
                     <div class="col-6 col-md-4 col-lg-3">
-                        <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden hover-shadow transition-all">
-                            <div class="position-relative" style="height: 160px; overflow: hidden;">
+                        <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden hover-shadow transition-all bg-white">
+                            <div class="position-relative" style="height: 180px; overflow: hidden; background: #f8f9fa;">
                                 <img src="${image}" class="w-100 h-100 object-fit-cover" alt="${name}">
-                                <span class="position-absolute top-0 start-0 m-2 badge bg-white text-danger fw-bold shadow-sm" style="font-size: 0.65rem;">${region}</span>
+                                <span class="position-absolute top-0 end-0 m-3 badge badge-glass text-dark fw-bold shadow-sm px-3 py-2 rounded-pill" style="font-size: 0.75rem;">
+                                    <i class="fa-solid fa-location-dot text-accent me-1"></i>${region}
+                                </span>
                             </div>
-                            <div class="card-body p-3">
-                                <div class="d-flex justify-content-between align-items-start mb-2">
-                                    <h6 class="card-title fw-bold text-dark mb-0 lh-sm" style="font-size: 0.95rem;">${name}</h6>
-                                    <div class="d-flex align-items-center gap-1 bg-warning-subtle px-1 py-0 rounded-2">
-                                        <i class="fa-solid fa-star text-warning" style="font-size: 0.6rem;"></i>
-                                        <small class="fw-bold text-dark" style="font-size: 0.7rem;">${parseFloat(rating).toFixed(1)}</small>
+                            <div class="card-body p-4">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <h6 class="card-title fw-bold text-dark mb-0 lh-base" style="font-size: 1.1rem; letter-spacing: -0.3px;">${name}</h6>
+                                    <div class="d-flex align-items-center gap-1 bg-accent bg-opacity-10 px-2 py-1 rounded-3">
+                                        <i class="fa-solid fa-star text-accent" style="font-size: 0.7rem;"></i>
+                                        <small class="fw-bold text-accent" style="font-size: 0.8rem;">${parseFloat(rating).toFixed(1)}</small>
                                     </div>
                                 </div>
-                                <p class="card-text text-muted mb-3 text-truncate" style="font-size: 0.8rem;">${desc.substring(0, 50)}${desc.length > 50 ? '...' : ''}</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <span class="badge ${isHalal ? 'bg-success-subtle text-success' : 'bg-secondary-subtle text-secondary'} fw-medium" style="font-size: 0.65rem;">${isHalal ? 'Halal' : 'Non-Halal'}</span>
-                                    <span class="text-danger fw-bold" style="font-size: 0.9rem;">Rp ${new Intl.NumberFormat('id-ID').format(price)}</span>
+                                <p class="card-text text-muted mb-4 text-truncate" style="font-size: 0.85rem; line-height: 1.5;">${desc.substring(0, 50)}${desc.length > 50 ? '...' : ''}</p>
+                                <div class="d-flex justify-content-between align-items-center mt-auto pt-2 border-top border-light">
+                                    ${halalBadge}
+                                    <span class="text-dark fw-bold" style="font-size: 1rem;">${formattedPrice}</span>
                                 </div>
                             </div>
                         </div>
