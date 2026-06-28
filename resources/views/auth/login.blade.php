@@ -94,7 +94,7 @@
                                 </div>
                             </div>
 
-                            <button type="submit" class="btn btn-custom w-100 py-2 fw-bold mb-3">Masuk Sekarang</button>
+                            <button type="submit" class="inline-flex items-center justify-center rounded-2xl bg-primary w-full py-3 text-sm font-semibold text-white shadow-sm hover:bg-teal-800 transition-all active:scale-95 text-decoration-none mt-2 mb-3">Masuk Sekarang</button>
                         </form>
 
                         <div class="text-center mt-3">

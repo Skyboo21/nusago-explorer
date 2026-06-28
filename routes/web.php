@@ -88,3 +88,7 @@ Route::get('/explorer', function () {
     return view('explorer'); 
 });
 
+Route::get('/landing-page', function () {
+    return view('landing-page');
+});
+

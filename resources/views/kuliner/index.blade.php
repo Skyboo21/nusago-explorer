@@ -3,7 +3,7 @@
 @section('title', 'Wisata Kuliner Nusantara')
 
 @section('content')
-<div class="py-4 bg-light min-vh-100">
+<div class="py-4 bg-light min-vh-100 {{ auth()->guest() ? 'relative h-[85vh] overflow-hidden' : 'relative' }}">
     <div class="container">
         
         <!-- HEADER SECTION -->
@@ -125,6 +125,40 @@
         </div>
 
     </div>
+
+    @guest
+        <!-- Blurry overlay over the content -->
+        <div class="absolute inset-0 z-10 flex flex-col items-center justify-center bg-white/40 backdrop-blur-[12px] pt-10">
+            <!-- The Lock Card -->
+            <div class="bg-white/95 backdrop-blur-xl p-10 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-white/50 text-center max-w-lg mx-4 relative overflow-hidden">
+                
+                <!-- Glow Effect -->
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120px] bg-primary/20 blur-[50px] rounded-full pointer-events-none"></div>
+
+                <div class="relative z-10 flex flex-col items-center">
+                    <!-- Lock Icon -->
+                    <div class="w-20 h-20 bg-slate-900 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+                        <i data-lucide="lock" class="h-10 w-10 text-white"></i>
+                    </div>
+
+                    <h3 class="text-3xl font-bold text-slate-900 mb-3 font-heading tracking-tight">Akses Terbatas</h3>
+                    
+                    <p class="text-slate-600 mb-8 leading-relaxed font-medium">
+                        Untuk menjelajahi daftar kuliner dan fitur lokasi terdekat, silakan login/register terlebih dahulu.
+                    </p>
+                    
+                    <div class="flex justify-center gap-4 w-full">
+                        <a href="{{ route('login') }}" class="flex-1 inline-flex items-center justify-center rounded-full bg-primary px-8 py-3.5 text-sm font-bold text-white shadow-md hover:bg-teal-800 transition-all active:scale-95 text-decoration-none border-0">
+                            Login
+                        </a>
+                        <a href="{{ route('register') }}" class="flex-1 inline-flex items-center justify-center rounded-full bg-white px-8 py-3.5 text-sm font-bold text-slate-900 shadow-sm hover:bg-gray-50 transition-all active:scale-95 text-decoration-none border-2 border-slate-200 hover:border-slate-300">
+                            Daftar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endguest
 </div>
 
 <style>

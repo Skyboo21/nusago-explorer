@@ -4,69 +4,87 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nusago Explorer - Jelajah, Rasa, & Cerita</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5 (Core layout only, styling handled by Tailwind mostly) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- FontAwesome (Legacy compatibility) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --color-primary: #0F766E;
-            --color-on-primary: #FFFFFF;
-            --color-accent: #F59E0B;
-            --color-background: #FAFAF9;
-            --color-foreground: #0F172A;
-            --color-muted: #F1F5F9;
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            corePlugins: {
+                preflight: false, // Prevents Tailwind from overriding Bootstrap defaults
+            },
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        background: '#ffffff',
+                        foreground: '#09090b',
+                        muted: '#f4f4f5',
+                        'muted-foreground': '#71717a',
+                        primary: '#0F766E', // Nusago's teal
+                        'primary-foreground': '#ffffff',
+                        accent: '#F59E0B', // Nusago's yellow/orange
+                        border: '#e4e4e7'
+                    }
+                }
+            }
         }
+    </script>
+    
+    <!-- Alpine.js & Lucide Icons -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
         body { 
             font-family: 'Inter', sans-serif; 
-            background-color: var(--color-background);
-            color: var(--color-foreground);
-            position: relative;
-            min-height: 100vh;
+            background-color: #FAFAF9;
+            color: #0F172A;
             overflow-x: hidden;
         }
-        h1, h2, h3, h4, h5, h6, .navbar-brand {
-            font-family: 'Plus Jakarta Sans', sans-serif;
+        h1, h2, h3, h4, h5, h6, .font-heading {
+            font-family: 'Plus Jakarta Sans', sans-serif !important;
         }
 
-        .glass-card {
-            background: rgba(255, 255, 255, 0.85);
+        /* Glassmorphism Navbar */
+        .glass-navbar {
+            background: rgba(255, 255, 255, 0.85) !important;
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
-        }
-
-        .navbar { 
-            background: rgba(255, 255, 255, 0.9) !important;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.6);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            border-bottom: 1px solid rgba(228, 228, 231, 0.6);
             transition: all 0.3s ease;
         }
-        .navbar-brand { color: var(--color-primary) !important; font-weight: 800; letter-spacing: -0.5px; }
-        .nav-link { font-weight: 500; color: #475569 !important; margin: 0 12px; transition: all 0.3s ease; font-size: 0.95rem; }
-        .nav-link:hover { color: var(--color-primary) !important; transform: translateY(-1px); }
-        .nav-link i { display: none; } /* Hide icons on main nav for cleaner look */
-        .dropdown-menu .nav-link i, .dropdown-item i { display: inline-block; } /* Keep icons in dropdowns */
+        .glass-navbar.scrolled {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            background: rgba(255, 255, 255, 0.95) !important;
+        }
+
+        /* Navbar link styles */
+        .nav-link-custom {
+            font-weight: 500;
+            color: #475569 !important;
+            transition: all 0.2s ease;
+            position: relative;
+            font-size: 0.95rem;
+        }
+        .nav-link-custom:hover {
+            color: #0F766E !important;
+        }
         
-        .btn-custom { 
-            background: var(--color-primary); 
-            color: white !important; 
-            border-radius: 30px; 
-            padding: 8px 25px; 
-            font-weight: 600; 
-            transition: all 0.3s ease;
-            border: none;
-            box-shadow: 0 4px 15px rgba(15, 118, 110, 0.2);
-        }
-        .btn-custom:hover { 
-            background: #115e59;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(15, 118, 110, 0.3); 
-        }
+        /* Interactive Avatar */
         .avatar-circle {
-            width: 38px; height: 38px;
+            width: 40px; height: 40px;
             background-color: #CCFBF1;
             color: #0F766E;
             border-radius: 50%;
@@ -74,111 +92,162 @@
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            border: 2px solid transparent;
             transition: all 0.3s ease;
-            font-size: 0.85rem;
         }
-        .nav-item.dropdown:hover .avatar-circle {
-            border-color: #0F766E;
+        .avatar-circle:hover {
+            transform: scale(1.05) rotate(5deg);
+            box-shadow: 0 4px 12px rgba(15, 118, 110, 0.2);
         }
-        footer { background: #0F172A; color: white; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+
+        /* Hide FontAwesome icons in desktop nav if Lucide is preferred, but keep for legacy */
+        @media (min-width: 992px) {
+            .nav-link-custom > i { display: none; }
+        }
     </style>
 </head>
-<body>
+<body x-data="{ isScrolled: false }" @scroll.window="isScrolled = (window.pageYOffset > 20)">
+    
     @if(!request()->routeIs('login') && !request()->routeIs('register'))
-    <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top py-3">
-        <div class="container">
-            <a class="navbar-brand" href="/">
-                Nusa Go Explorer<span style="color: var(--color-accent);">.</span>
+    <!-- Main Navbar (Tailwind + Alpine) -->
+    <nav :class="{ 'scrolled': isScrolled }" class="fixed top-0 inset-x-0 py-3 glass-navbar z-50" x-data="{ mobileMenuOpen: false }">
+        <div class="container max-w-7xl mx-auto px-4 flex items-center justify-between">
+            <!-- Brand / Logo -->
+            <a href="/" class="font-heading flex items-center gap-2 group text-decoration-none">
+                <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6 shadow-sm">
+                    <i data-lucide="compass" class="h-5 w-5 text-white"></i>
+                </div>
+                <span class="font-bold text-xl text-primary tracking-tight m-0">NusaGo Explorer<span class="text-accent">.</span></span>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
+            
+            <!-- Mobile Toggle -->
+            <button @click="mobileMenuOpen = !mobileMenuOpen" type="button" class="lg:hidden p-2 text-gray-700 hover:bg-gray-100 rounded-lg">
+                <i data-lucide="menu" class="h-6 w-6"></i>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto align-items-center">
-                    <li class="nav-item">
-                        <a class="nav-link d-flex align-items-center gap-1 text-nowrap" href="/">
-                            <i class="fa-solid fa-house"></i> Beranda
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link d-flex align-items-center gap-1 text-nowrap" href="{{ route('destinasi') }}">
-                            <i class="fa-solid fa-location-dot"></i> Destinasi
-                        </a>
-                    </li>
+            
+            <!-- Desktop Nav -->
+            <div class="hidden lg:flex items-center gap-1.5">
+                <a href="/" class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 text-decoration-none {{ request()->is('/') ? 'bg-teal-50 text-primary' : 'text-gray-600 hover:bg-gray-50 hover:text-primary' }}">Beranda</a>
+                <a href="{{ route('destinasi') }}" class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 text-decoration-none {{ request()->routeIs('destinasi') ? 'bg-teal-50 text-primary' : 'text-gray-600 hover:bg-gray-50 hover:text-primary' }}">Destinasi</a>
+                <a href="{{ route('kuliner') }}" class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 text-decoration-none {{ request()->routeIs('kuliner') ? 'bg-teal-50 text-primary' : 'text-gray-600 hover:bg-gray-50 hover:text-primary' }}">Kuliner</a>
 
-                    <li class="nav-item">
-                        <a class="nav-link d-flex align-items-center gap-1 text-nowrap" href="{{ route('kuliner') }}">
-                            <i class="fa-solid fa-utensils"></i> Kuliner
-                        </a>
-                    </li>
+                @auth
+                    <a href="{{ route('maps.index') }}" class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 text-decoration-none {{ request()->routeIs('maps.index') ? 'bg-teal-50 text-primary' : 'text-gray-600 hover:bg-gray-50 hover:text-primary' }}">Peta</a>
+                    <a href="{{ route('virtual-camera.index') }}" class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 text-decoration-none {{ request()->routeIs('virtual-camera.index') ? 'bg-teal-50 text-primary' : 'text-gray-600 hover:bg-gray-50 hover:text-primary' }}">Virtual</a>
+                    <a href="{{ route('chatbot.index') }}" class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 text-decoration-none {{ request()->routeIs('chatbot.index') ? 'bg-teal-50 text-primary' : 'text-gray-600 hover:bg-gray-50 hover:text-primary' }}">Chatbot</a>
+                    <a href="{{ route('review.index') }}" class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 text-decoration-none {{ request()->routeIs('review.index') ? 'bg-teal-50 text-primary' : 'text-gray-600 hover:bg-gray-50 hover:text-primary' }}">Review</a>
 
-                    @auth
-                        <li class="nav-item">
-                            <a class="nav-link d-flex align-items-center gap-1 text-nowrap" href="{{ route('maps.index') }}">
-                                <i class="fa-solid fa-map-location-dot"></i> Peta
+                    <!-- User Profile Dropdown -->
+                    <div class="relative ml-2" x-data="{ dropdownOpen: false }">
+                        <button @click="dropdownOpen = !dropdownOpen" @click.away="dropdownOpen = false" class="flex items-center gap-2 p-0 border-0 bg-transparent">
+                            <div class="avatar-circle text-uppercase">{{ substr(Auth::user()->name, 0, 2) }}</div>
+                        </button>
+                        
+                        <div x-show="dropdownOpen" x-transition.opacity style="display: none;" class="absolute right-0 mt-3 w-48 bg-white rounded-2xl shadow-lg border border-border py-2 overflow-hidden z-50">
+                            <a href="{{ route('dashboard') }}" class="flex items-center gap-3 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-muted text-decoration-none">
+                                <i data-lucide="layout-dashboard" class="h-4 w-4 text-primary"></i> Dashboard
                             </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link d-flex align-items-center gap-1 text-nowrap" href="{{ route('virtual-camera.index') }}">
-                                <i class="fa-solid fa-camera"></i> Virtual
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link d-flex align-items-center gap-1 text-nowrap" href="{{ route('chatbot.index') }}">
-                                <i class="fa-solid fa-robot"></i> Chatbot
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link d-flex align-items-center gap-1 text-nowrap" href="{{ route('review.index') }}">
-                                <i class="fa-solid fa-star"></i> Review
-                            </a>
-                        </li>
+                            @if(Auth::user()->role === 'admin')
+                                <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-muted text-decoration-none">
+                                    <i data-lucide="shield" class="h-4 w-4 text-red-500"></i> Admin Panel
+                                </a>
+                            @endif
+                            <hr class="my-1 border-gray-100">
+                            <form method="POST" action="{{ route('logout') }}" class="m-0">
+                                @csrf
+                                <button type="submit" class="w-full flex items-center gap-3 px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 text-left border-0 bg-transparent">
+                                    <i data-lucide="log-out" class="h-4 w-4"></i> Keluar
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                @endauth
 
-                        <li class="nav-item dropdown ms-lg-3 mt-3 mt-lg-0">
-                            <a class="nav-link dropdown-toggle text-dark fw-bold d-flex align-items-center gap-2" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" style="padding: 0;">
-                                <div class="avatar-circle text-uppercase">{{ substr(Auth::user()->name, 0, 2) }}</div>
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end border-0 shadow-sm rounded-3 mt-2">
-                                <li>
-                                    <a class="dropdown-item fw-bold py-2" href="{{ route('dashboard') }}">
-                                        <i class="fa-solid fa-chart-line me-2" style="display: inline-block; color: var(--color-primary);"></i>Dashboard
-                                    </a>
-                                </li>
-                                @if(Auth::user()->role === 'admin')
-                                    <li>
-                                        <a class="dropdown-item fw-bold py-2" href="{{ route('admin.dashboard') }}">
-                                            <i class="fa-solid fa-shield-halved me-2 text-danger" style="display: inline-block;"></i>Admin Panel
-                                        </a>
-                                    </li>
-                                @endif
-                            </ul>
-                        </li>
-                    @endauth
+                @guest
+                    <a href="{{ route('login') }}" class="ml-4 inline-flex items-center justify-center rounded-full bg-primary px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-teal-800 transition-all active:scale-95 text-decoration-none">
+                        Masuk / Daftar
+                    </a>
+                @endguest
+            </div>
+        </div>
 
-                    @guest
-                        <li class="nav-item ms-lg-3 mt-3 mt-lg-0">
-                            <a class="btn btn-custom" href="{{ route('login') }}">Masuk / Daftar</a>
-                        </li>
-                    @endguest
-                </ul>
+        <!-- Mobile Menu -->
+        <div x-show="mobileMenuOpen" style="display: none;" x-transition class="lg:hidden bg-white border-t border-border shadow-lg absolute top-full left-0 w-full z-40">
+            <div class="flex flex-col px-4 py-4 space-y-3">
+                <a href="/" class="text-gray-700 font-medium py-2 text-decoration-none flex items-center gap-2"><i data-lucide="house" class="w-5 h-5"></i> Beranda</a>
+                <a href="{{ route('destinasi') }}" class="text-gray-700 font-medium py-2 text-decoration-none flex items-center gap-2"><i data-lucide="location-dot" class="w-5 h-5"></i> Destinasi</a>
+                <a href="{{ route('kuliner') }}" class="text-gray-700 font-medium py-2 text-decoration-none flex items-center gap-2"><i data-lucide="utensils" class="w-5 h-5"></i> Kuliner</a>
+                
+                @auth
+                    <a href="{{ route('maps.index') }}" class="text-gray-700 font-medium py-2 text-decoration-none flex items-center gap-2"><i data-lucide="map-location-dot" class="w-5 h-5"></i> Peta</a>
+                    <a href="{{ route('virtual-camera.index') }}" class="text-gray-700 font-medium py-2 text-decoration-none flex items-center gap-2"><i data-lucide="camera" class="w-5 h-5"></i> Virtual</a>
+                    <a href="{{ route('chatbot.index') }}" class="text-gray-700 font-medium py-2 text-decoration-none flex items-center gap-2"><i data-lucide="robot" class="w-5 h-5"></i> Chatbot</a>
+                    <a href="{{ route('review.index') }}" class="text-gray-700 font-medium py-2 text-decoration-none flex items-center gap-2"><i data-lucide="star" class="w-5 h-5"></i> Review</a>
+                    
+                    <hr class="my-2 border-gray-100">
+                    <a href="{{ route('dashboard') }}" class="text-primary font-medium py-2 text-decoration-none flex items-center gap-2"><i data-lucide="layout-dashboard" class="w-5 h-5"></i> Dashboard</a>
+                    @if(Auth::user()->role === 'admin')
+                        <a href="{{ route('admin.dashboard') }}" class="text-red-500 font-medium py-2 text-decoration-none flex items-center gap-2"><i data-lucide="shield" class="w-5 h-5"></i> Admin Panel</a>
+                    @endif
+                    <form method="POST" action="{{ route('logout') }}" class="m-0">
+                        @csrf
+                        <button type="submit" class="w-full text-left text-red-600 font-medium py-2 border-0 bg-transparent flex items-center gap-2">
+                            <i data-lucide="log-out" class="w-5 h-5"></i> Keluar
+                        </button>
+                    </form>
+                @endauth
+                
+                @guest
+                    <a href="{{ route('login') }}" class="mt-2 inline-flex items-center justify-center rounded-full bg-primary px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-teal-800 text-decoration-none w-full">
+                        Masuk / Daftar
+                    </a>
+                @endguest
             </div>
         </div>
     </nav>
     @endif
 
-    <main>
+    <main class="flex-1 {{ (!request()->routeIs('login') && !request()->routeIs('register')) ? 'pt-24 md:pt-28' : '' }}">
         @yield('content')
     </main>
 
     @if(!request()->routeIs('login') && !request()->routeIs('register'))
-    <footer class="text-center py-4 mt-5">
-        <div class="container">
-            <p class="mb-0">&copy; 2026 Nusago Explorer. Pesona Indonesia di Ujung Jari.</p>
+    <!-- Modern Footer -->
+    <footer class="w-full border-t border-border bg-white mt-20">
+        <div class="container max-w-7xl mx-auto px-4 py-12">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="flex items-center space-x-3 group">
+                    <div class="h-10 w-10 rounded-full bg-primary flex items-center justify-center shadow-sm">
+                        <i data-lucide="compass" class="h-5 w-5 text-white"></i>
+                    </div>
+                    <span class="font-bold text-xl font-heading text-primary">NusaGo Explorer<span class="text-accent">.</span></span>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="#" class="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-gray-500 hover:bg-primary hover:text-white transition-colors">
+                        <i data-lucide="instagram" class="h-5 w-5"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-gray-500 hover:bg-primary hover:text-white transition-colors">
+                        <i data-lucide="twitter" class="h-5 w-5"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-gray-500 hover:bg-primary hover:text-white transition-colors">
+                        <i data-lucide="youtube" class="h-5 w-5"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-border text-center text-sm text-gray-500 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p>&copy; {{ date('Y') }} Nusago Explorer. Pesona Indonesia di Ujung Jari.</p>
+                <div class="flex gap-4">
+                    <a href="#" class="hover:text-primary transition-colors no-underline">Kebijakan Privasi</a>
+                    <a href="#" class="hover:text-primary transition-colors no-underline">Syarat Ketentuan</a>
+                </div>
+            </div>
         </div>
     </footer>
     @endif
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Initialize Lucide Icons globally
+        lucide.createIcons();
+    </script>
 </body>
 </html>
