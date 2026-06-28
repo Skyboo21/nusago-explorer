@@ -63,7 +63,6 @@ Route::get('/detail-wisata', [WisataController::class, 'showDetail']);
 Route::get('/pemandu-lokal', function () { return view('coming-soon', ['title' => 'Pemandu Lokal']); })->name('pemandu-lokal');
 Route::get('/kuliner', [KulinerController::class, 'index'])->name('kuliner');
 
-Route::get('/kuliner', function () { return view('coming-soon', ['title' => 'Kuliner']); })->name('kuliner');
 
 // Route Admin
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
