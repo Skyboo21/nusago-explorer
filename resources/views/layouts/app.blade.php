@@ -40,11 +40,7 @@
                             <i class="fa-solid fa-location-dot"></i> Destinasi
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link d-flex align-items-center gap-1 text-nowrap" href="{{ route('pemandu-lokal') }}">
-                            <i class="fa-solid fa-person-hiking"></i> Pemandu Lokal
-                        </a>
-                    </li>
+
                     <li class="nav-item">
                         <a class="nav-link d-flex align-items-center gap-1 text-nowrap" href="{{ route('kuliner') }}">
                             <i class="fa-solid fa-utensils"></i> Kuliner

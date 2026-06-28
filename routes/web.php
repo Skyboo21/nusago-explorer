@@ -56,7 +56,7 @@ Route::middleware('auth')->group(function () {
 // Fitur Tambahan (Bisa diakses, tapi diblur untuk Guest di dalam View-nya)
 Route::get('/destinasi', [WisataController::class, 'halamanDestinasi'])->name('destinasi');
 Route::get('/detail-wisata', [WisataController::class, 'showDetail']);
-Route::get('/pemandu-lokal', function () { return view('coming-soon', ['title' => 'Pemandu Lokal']); })->name('pemandu-lokal');
+
 Route::get('/kuliner', function () { return view('coming-soon', ['title' => 'Kuliner']); })->name('kuliner');
 
 // Route Admin
