@@ -11,13 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('kuliners', function (Blueprint $table) {
+        Schema::create('kuliner', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('wisata_id')->constrained('wisatas')->onDelete('cascade');
             $table->string('nama_kuliner');
             $table->text('deskripsi_kuliner')->nullable();
-            $table->integer('harga_estimasi');
+            $table->string('daerah', 100)->nullable();
+            $table->enum('kategori', ['restoran', 'kafe', 'street_food', 'tradisional'])->default('restoran');
+            $table->integer('harga_estimasi')->nullable();
             $table->string('gambar_kuliner')->nullable();
+            $table->decimal('latitude', 10, 8)->nullable(); 
+            $table->decimal('longitude', 11, 8)->nullable();
+            $table->decimal('rating', 3, 2)->default(0.00);
+            $table->boolean('is_halal')->default(true);
             $table->timestamps();
         });
     }
@@ -27,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('kuliners');
+        Schema::dropIfExists('kuliner');
     }
 };
