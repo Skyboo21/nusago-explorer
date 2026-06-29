@@ -38,7 +38,7 @@
     <div style="filter: blur(8px); pointer-events: none; user-select: none; opacity: 0.6;">
 @endguest
 
-<div class="container my-5">
+<div class="container max-w-7xl mx-auto px-4 my-5">
 
     <div class="text-center mb-5">
         <h1 class="fw-bold" style="color: var(--color-foreground);">Destinasi Terpopuler</h1>
@@ -47,7 +47,7 @@
 
     <div class="row g-4 mb-5">
         @forelse($destinasiPopuler as $wisata)
-            <div class="col-md-4">
+            <div class="col-12 col-md-6 col-lg-4 col-xl-3">
                 <div class="glass-card h-100 border-0 rounded-4 overflow-hidden" style="transition: transform 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
                     @php
                         if (Str::startsWith($wisata->gambar, 'http') || Str::startsWith($wisata->gambar, 'data:')) {

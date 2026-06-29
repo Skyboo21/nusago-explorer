@@ -163,7 +163,7 @@
         </h2>
     </div>
     
-    <div class="grid md:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         
         <div class="group relative overflow-hidden rounded-[2rem] border border-border bg-white p-8 shadow-sm transition-all hover:shadow-xl hover:-translate-y-2 duration-300">
             <div class="absolute -right-20 -top-20 h-40 w-40 rounded-full bg-teal-50 group-hover:bg-teal-100 transition-all duration-300"></div>

@@ -151,13 +151,6 @@
                                     <i data-lucide="shield" class="h-4 w-4 text-red-500"></i> Admin Panel
                                 </a>
                             @endif
-                            <hr class="my-1 border-gray-100">
-                            <form method="POST" action="{{ route('logout') }}" class="m-0">
-                                @csrf
-                                <button type="submit" class="w-full flex items-center gap-3 px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 text-left border-0 bg-transparent">
-                                    <i data-lucide="log-out" class="h-4 w-4"></i> Keluar
-                                </button>
-                            </form>
                         </div>
                     </div>
                 @endauth
@@ -188,12 +181,6 @@
                     @if(Auth::user()->role === 'admin')
                         <a href="{{ route('admin.dashboard') }}" class="text-red-500 font-medium py-2 text-decoration-none flex items-center gap-2"><i data-lucide="shield" class="w-5 h-5"></i> Admin Panel</a>
                     @endif
-                    <form method="POST" action="{{ route('logout') }}" class="m-0">
-                        @csrf
-                        <button type="submit" class="w-full text-left text-red-600 font-medium py-2 border-0 bg-transparent flex items-center gap-2">
-                            <i data-lucide="log-out" class="w-5 h-5"></i> Keluar
-                        </button>
-                    </form>
                 @endauth
                 
                 @guest
@@ -206,7 +193,7 @@
     </nav>
     @endif
 
-    <main class="flex-1 {{ (!request()->routeIs('login') && !request()->routeIs('register')) ? 'pt-24 md:pt-28' : '' }}">
+    <main class="flex-1 {{ (!request()->routeIs('login') && !request()->routeIs('register')) ? 'pt-20 md:pt-24' : '' }}">
         @yield('content')
     </main>
 

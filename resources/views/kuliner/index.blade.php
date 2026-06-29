@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="py-4 bg-light min-vh-100 {{ auth()->guest() ? 'relative h-[85vh] overflow-hidden' : 'relative' }}">
-    <div class="container">
+    <div class="container max-w-7xl mx-auto px-4">
         
         <!-- HEADER SECTION -->
         <div class="text-center mb-4">
@@ -88,7 +88,7 @@
                     ];
                     $fallbackImg = $foodImages[$loop->index % count($foodImages)];
                 @endphp
-                <div class="col-6 col-md-4 col-lg-3 item-kuliner" data-type="{{ $item->kategori }}">
+                <div class="col-12 col-sm-6 col-lg-4 col-xl-3 item-kuliner" data-type="{{ $item->kategori }}">
                     <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden hover-shadow transition-all bg-white">
                         <div class="position-relative" style="height: 180px; overflow: hidden; background: #f8f9fa;">
                             <img src="{{ $item->gambar_kuliner ?? $fallbackImg }}" 
@@ -227,7 +227,7 @@
                     : '<span class="badge bg-danger bg-opacity-10 text-danger fw-medium px-2 py-1 rounded-2" style="font-size: 0.7rem;"><i class="fa-solid fa-circle-exclamation me-1"></i>Non-Halal</span>';
 
                 const cardHtml = `
-                    <div class="col-6 col-md-4 col-lg-3">
+                    <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
                         <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden hover-shadow transition-all bg-white">
                             <div class="position-relative" style="height: 180px; overflow: hidden; background: #f8f9fa;">
                                 <img src="${image}" class="w-100 h-100 object-fit-cover" alt="${name}">
