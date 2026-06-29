@@ -62,14 +62,19 @@ class DashboardController extends Controller
         ];
     }
 
-    // 4. Menu Akses Cepat
     private function getQuickAccessMenu()
     {
-        return [
-            ['nama' => 'Peta Lokasi', 'url' => '#', 'icon' => 'fa-regular fa-map'],
+        $menus = [
+            ['nama' => 'Peta Lokasi', 'url' => route('maps.index'), 'icon' => 'fa-regular fa-map'],
             ['nama' => 'Misi Harian', 'url' => '#', 'icon' => 'fa-solid fa-bullseye'],
-            ['nama' => 'Kuliner', 'url' => '#', 'icon' => 'fa-solid fa-utensils'],
+            ['nama' => 'Kuliner', 'url' => route('kuliner'), 'icon' => 'fa-solid fa-utensils'],
             ['nama' => 'Pengaturan', 'url' => '#', 'icon' => 'fa-solid fa-gear'],
         ];
+
+        if (Auth::check() && Auth::user()->role === 'admin') {
+            array_unshift($menus, ['nama' => 'Admin Panel', 'url' => route('admin.dashboard'), 'icon' => 'fa-solid fa-shield-halved']);
+        }
+
+        return $menus;
     }
 }

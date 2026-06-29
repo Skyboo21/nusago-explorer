@@ -222,14 +222,14 @@
                     <span class="font-bold text-xl font-heading text-primary">NusaGo Explorer<span class="text-accent">.</span></span>
                 </div>
                 <div class="flex space-x-4">
-                    <a href="#" class="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-gray-500 hover:bg-primary hover:text-white transition-colors">
-                        <i data-lucide="instagram" class="h-5 w-5"></i>
+                    <a href="https://instagram.com" target="_blank" class="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-gray-500 hover:bg-[#E1306C] hover:text-white transition-colors shadow-sm text-decoration-none">
+                        <i class="fa-brands fa-instagram fs-5"></i>
                     </a>
-                    <a href="#" class="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-gray-500 hover:bg-primary hover:text-white transition-colors">
-                        <i data-lucide="twitter" class="h-5 w-5"></i>
+                    <a href="https://tiktok.com" target="_blank" class="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-gray-500 hover:bg-black hover:text-white transition-colors shadow-sm text-decoration-none">
+                        <i class="fa-brands fa-tiktok fs-5"></i>
                     </a>
-                    <a href="#" class="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-gray-500 hover:bg-primary hover:text-white transition-colors">
-                        <i data-lucide="youtube" class="h-5 w-5"></i>
+                    <a href="https://youtube.com" target="_blank" class="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-gray-500 hover:bg-[#FF0000] hover:text-white transition-colors shadow-sm text-decoration-none">
+                        <i class="fa-brands fa-youtube fs-5"></i>
                     </a>
                 </div>
             </div>

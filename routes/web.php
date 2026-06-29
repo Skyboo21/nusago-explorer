@@ -9,6 +9,7 @@ use App\Http\Controllers\VirtualCameraController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\KelolaPengunjungController;
 use App\Http\Controllers\Admin\KelolaWisataController;
+use App\Http\Controllers\Admin\KelolaReviewController;
 use App\Http\Controllers\Admin\DatabaseGuideController;
 use App\Http\Controllers\WisataController; // <-- TAMBAHAN BARU
 use App\Http\Controllers\KulinerController;
@@ -70,10 +71,21 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     // Kelola Pengunjung
     Route::get('/pengunjung', [KelolaPengunjungController::class, 'index'])->name('pengunjung.index');
+    Route::get('/pengunjung/{id}/edit', [KelolaPengunjungController::class, 'edit'])->name('pengunjung.edit');
+    Route::put('/pengunjung/{id}', [KelolaPengunjungController::class, 'update'])->name('pengunjung.update');
     Route::delete('/pengunjung/{id}', [KelolaPengunjungController::class, 'destroy'])->name('pengunjung.destroy');
 
     // Kelola Wisata
     Route::get('/wisata', [KelolaWisataController::class, 'index'])->name('wisata.index');
+    Route::get('/wisata/create', [KelolaWisataController::class, 'create'])->name('wisata.create');
+    Route::post('/wisata', [KelolaWisataController::class, 'store'])->name('wisata.store');
+    Route::get('/wisata/{id}/edit', [KelolaWisataController::class, 'edit'])->name('wisata.edit');
+    Route::put('/wisata/{id}', [KelolaWisataController::class, 'update'])->name('wisata.update');
+    Route::delete('/wisata/{id}', [KelolaWisataController::class, 'destroy'])->name('wisata.destroy');
+
+    // Kelola Review
+    Route::get('/review', [KelolaReviewController::class, 'index'])->name('review.index');
+    Route::delete('/review/{id}', [KelolaReviewController::class, 'destroy'])->name('review.destroy');
 
     // Database Guide
     Route::get('/guide', [DatabaseGuideController::class, 'index'])->name('guide.index');

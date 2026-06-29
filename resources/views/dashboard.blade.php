@@ -120,6 +120,7 @@
                             if (str_contains($menu['icon'], 'bullseye') || str_contains($menu['icon'], 'target')) $lucideIcon = 'target';
                             if (str_contains($menu['icon'], 'utensils')) $lucideIcon = 'utensils';
                             if (str_contains($menu['icon'], 'gear') || str_contains($menu['icon'], 'cog')) $lucideIcon = 'settings';
+                            if (str_contains($menu['icon'], 'shield')) $lucideIcon = 'shield';
                         @endphp
                         
                         <a href="{{ $menu['url'] }}" class="group flex flex-col items-center justify-center p-4 rounded-[1.5rem] bg-gray-50 border border-gray-100 hover:bg-primary hover:border-primary transition-all duration-300 text-decoration-none">

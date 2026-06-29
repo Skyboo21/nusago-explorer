@@ -3,25 +3,90 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Wisata;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class KelolaWisataController extends Controller
 {
-    private function getWisata()
-    {
-        return [
-            ['id' => 1, 'nama' => 'Candi Borobudur', 'lokasi' => 'Magelang, Jawa Tengah', 'kategori' => 'Sejarah & Budaya', 'lat' => -7.6079, 'lng' => 110.2038, 'status' => 'aktif'],
-            ['id' => 2, 'nama' => 'Pantai Kuta', 'lokasi' => 'Badung, Bali', 'kategori' => 'Pantai & Laut', 'lat' => -8.7184, 'lng' => 115.1686, 'status' => 'aktif'],
-            ['id' => 3, 'nama' => 'Gunung Bromo', 'lokasi' => 'Probolinggo, Jawa Timur', 'kategori' => 'Alam & Petualangan', 'lat' => -7.9425, 'lng' => 112.9530, 'status' => 'aktif'],
-            ['id' => 4, 'nama' => 'Danau Toba', 'lokasi' => 'Sumatera Utara', 'kategori' => 'Alam & Danau', 'lat' => 2.6845, 'lng' => 98.8756, 'status' => 'aktif'],
-            ['id' => 5, 'nama' => 'Labuan Bajo', 'lokasi' => 'Manggarai Barat, NTT', 'kategori' => 'Pantai & Laut', 'lat' => -8.4961, 'lng' => 119.8707, 'status' => 'aktif'],
-            ['id' => 6, 'nama' => 'Raja Ampat', 'lokasi' => 'Papua Barat', 'kategori' => 'Pantai & Laut', 'lat' => -0.2338, 'lng' => 130.5253, 'status' => 'aktif'],
-        ];
-    }
-
     public function index()
     {
-        $wisata = $this->getWisata();
+        $wisata = Wisata::latest()->get();
         return view('admin.wisata.index', compact('wisata'));
+    }
+
+    public function create()
+    {
+        return view('admin.wisata.create');
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'nama_wisata' => 'required|string|max:255',
+            'lokasi' => 'required|string|max:255',
+            'alamat' => 'nullable|string',
+            'deskripsi' => 'nullable|string',
+            'rating' => 'nullable|numeric|min:0|max:5',
+            'jumlah_pengunjung' => 'nullable|integer|min:0',
+            'gambar' => 'nullable|image|max:2048'
+        ]);
+
+        if ($request->hasFile('gambar')) {
+            $path = $request->file('gambar')->store('wisata', 'public');
+            $validated['gambar'] = $path;
+        }
+
+        Wisata::create($validated);
+
+        return redirect()->route('admin.wisata.index')->with('success', 'Destinasi wisata berhasil ditambahkan!');
+    }
+
+    public function edit($id)
+    {
+        $wisata = Wisata::findOrFail($id);
+        return view('admin.wisata.edit', compact('wisata'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $wisata = Wisata::findOrFail($id);
+        
+        $validated = $request->validate([
+            'nama_wisata' => 'required|string|max:255',
+            'lokasi' => 'required|string|max:255',
+            'alamat' => 'nullable|string',
+            'deskripsi' => 'nullable|string',
+            'rating' => 'nullable|numeric|min:0|max:5',
+            'jumlah_pengunjung' => 'nullable|integer|min:0',
+            'gambar' => 'nullable|image|max:2048'
+        ]);
+
+        if ($request->hasFile('gambar')) {
+            // Hapus gambar lama jika ada
+            if ($wisata->gambar && Storage::disk('public')->exists($wisata->gambar)) {
+                Storage::disk('public')->delete($wisata->gambar);
+            }
+            $path = $request->file('gambar')->store('wisata', 'public');
+            $validated['gambar'] = $path;
+        }
+
+        $wisata->update($validated);
+
+        return redirect()->route('admin.wisata.index')->with('success', 'Data wisata berhasil diperbarui!');
+    }
+
+    public function destroy($id)
+    {
+        $wisata = Wisata::findOrFail($id);
+        
+        // Hapus gambar terkait
+        if ($wisata->gambar && Storage::disk('public')->exists($wisata->gambar)) {
+            Storage::disk('public')->delete($wisata->gambar);
+        }
+        
+        $wisata->delete();
+        
+        return redirect()->route('admin.wisata.index')->with('success', 'Destinasi wisata berhasil dihapus!');
     }
 }
