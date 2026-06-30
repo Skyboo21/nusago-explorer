@@ -10,37 +10,72 @@ class WisataController extends Controller
 {
     public function getRekomendasi(Request $request)
     {
-        $lat = $request->input('latitude');
-        $lng = $request->input('longitude');
+        $lat = (float) $request->input('latitude');
+        $lng = (float) $request->input('longitude');
+        $radius = $request->input('radius', 100000); // 100km
 
-        // Query Overpass API (cari wisata radius 20km)
-        $overpassQuery = "[out:json];node(around:20000,{$lat},{$lng})['tourism'~'attraction|museum|viewpoint|theme_park|zoo'];out 10;";
+        // 1. Ambil data lokal dari database sebagai fallback/gabungan
+        $dataLokal = Wisata::all()->map(function ($item) use ($lat, $lng) {
+            // Hitung jarak manual (Haversine kasar dalam meter)
+            $dist = sqrt(
+                pow((float)$item->lat - $lat, 2) + 
+                pow((float)$item->lng - $lng, 2)
+            ) * 111000; 
+            
+            return [
+                'type' => 'node',
+                'id' => 'local_' . $item->id,
+                'lat' => (float)$item->lat,
+                'lon' => (float)$item->lng,
+                'distance' => $dist,
+                'tags' => [
+                    'name' => $item->nama_wisata,
+                    'tourism' => 'attraction',
+                    'source' => 'local_db'
+                ]
+            ];
+        })
+        ->filter(fn($item) => $item['distance'] <= $radius)
+        ->values()
+        ->toArray();
+
+        // 2. Query Overpass API (cari wisata)
+        $overpassQuery = "[out:json];node(around:{$radius},{$lat},{$lng})['tourism'~'attraction|museum|viewpoint|theme_park|zoo'];out 15;";
         
         try {
             $response = Http::withHeaders([
                 'User-Agent' => 'NusagoExplorer/1.0',
                 'Accept' => 'application/json'
-            ])->get('https://overpass-api.de/api/interpreter', [
+            ])->timeout(10)->get('https://overpass-api.de/api/interpreter', [
                 'data' => $overpassQuery
             ]);
 
             if ($response->successful()) {
+                $elements = $response->json()['elements'] ?? [];
+                
+                // Gabungkan data lokal dan Overpass
+                $combined = array_merge($dataLokal, $elements);
+                
                 return response()->json([
                     'status' => 'success',
-                    'data' => $response->json()['elements']
+                    'data' => $combined
                 ]);
             }
 
+            // Jika Overpass gagal (misal 429 Too Many Requests), gunakan data lokal saja
             return response()->json([
-                'status' => 'error', 
-                'message' => 'Alasan: ' . $response->body()
-            ], $response->status());
+                'status' => 'success', 
+                'data' => $dataLokal,
+                'message' => 'Overpass API failed, using local data.'
+            ]);
 
         } catch (\Exception $e) {
+            // Jika request timeout atau error jaringan, gunakan data lokal saja
             return response()->json([
-                'status' => 'error', 
-                'message' => $e->getMessage()
-            ], 500);
+                'status' => 'success', 
+                'data' => $dataLokal,
+                'message' => 'Fallback to local data due to timeout.'
+            ]);
         }
     }
 

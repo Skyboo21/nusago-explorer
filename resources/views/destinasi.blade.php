@@ -48,7 +48,7 @@
     <div class="row g-4 mb-5">
         @forelse($destinasiPopuler as $wisata)
             <div class="col-12 col-md-6 col-lg-4 col-xl-3">
-                <div class="glass-card h-100 border-0 rounded-4 overflow-hidden" style="transition: transform 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+                <div class="glass-card h-100 border-0 rounded-4 overflow-hidden d-flex flex-column" style="transition: transform 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
                     @php
                         if (Str::startsWith($wisata->gambar, 'http') || Str::startsWith($wisata->gambar, 'data:')) {
                             $imgSrc = $wisata->gambar;
@@ -58,7 +58,7 @@
                     @endphp
                     <img src="{{ $imgSrc }}" class="card-img-top" alt="{{ $wisata->nama_wisata }}" style="height: 200px; object-fit: cover;">
                     
-                    <div class="card-body position-relative text-start p-4">
+                    <div class="card-body position-relative text-start p-4 flex-grow-1">
                         <div class="position-absolute top-0 end-0 translate-middle-y me-4 bg-warning text-dark px-3 py-1 rounded-pill shadow-sm fw-bold border border-white border-2" style="z-index: 2;">
                             <i class="fa-solid fa-star text-dark me-1"></i> {{ $wisata->rating ?? 'N/A' }}
                         </div>

@@ -13,6 +13,18 @@
                     }
                 @endphp
                 <img src="{{ $imgSrc }}" alt="{{ $dataWisata->nama_wisata }}" class="img-fluid rounded-4 shadow-sm w-100" style="object-fit: cover; max-height: 400px;">
+                
+                @if($dataWisata->video_url)
+                    <div class="mt-4 pt-3 border-top">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4 class="fw-bold m-0" style="color: #1d3557;"><i class="fa-brands fa-youtube text-danger me-2"></i>Dokumentasi Video</h4>
+                            <span class="badge bg-danger rounded-pill px-3 py-2 shadow-sm"><i class="fa-solid fa-play me-1"></i> Video 4K</span>
+                        </div>
+                        <div class="rounded-4 overflow-hidden shadow-lg hover-shadow-xl transition-all duration-300" style="position: relative; padding-bottom: 56.25%; height: 0; border: 4px solid #fff;">
+                            <iframe src="{{ $dataWisata->video_url }}?rel=0&modestbranding=1" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 12px;" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                @endif
             </div>
             <div class="col-md-6">
                 <div class="d-flex justify-content-between align-items-center mb-2">
@@ -24,6 +36,20 @@
                 <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($dataWisata->nama_wisata . ' ' . $dataWisata->lokasi) }}" target="_blank" class="btn btn-outline-danger mb-4 rounded-pill fw-bold shadow-sm">
                     <i class="fa-solid fa-map-location-dot me-2"></i>Lihat di Google Maps
                 </a>
+
+                @if($dataWisata->lat && $dataWisata->lng)
+                    <hr>
+                    <div class="d-flex justify-content-between align-items-center mb-3 mt-4">
+                        <h4 class="fw-bold m-0" style="color: #1d3557;"><i class="fa-solid fa-street-view text-danger me-2"></i>Tur Virtual 360°</h4>
+                        <span class="badge bg-danger rounded-pill px-3 py-2"><i class="fa-solid fa-vr-cardboard me-1"></i> Mode Virtual</span>
+                    </div>
+                    <div class="rounded-4 overflow-hidden shadow-sm mb-4" style="height: 400px; border: 3px solid #f8f9fa;">
+                        <iframe width="100%" height="100%" frameborder="0" style="border:0"
+                            src="https://www.google.com/maps/embed/v1/streetview?key={{ env('GOOGLE_MAPS_API_KEY') }}&location={{ $dataWisata->lat }},{{ $dataWisata->lng }}&heading=210&pitch=10&fov=90"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                @endif
 
                 <hr>
                 <h4 class="fw-bold" style="color: #1d3557;">Deskripsi</h4>

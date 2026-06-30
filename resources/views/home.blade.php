@@ -91,34 +91,38 @@
     </div>
 </section>
 
-<!-- Search Box (Redesigned as Glass Bento Box) -->
+<!-- Search Box (Redesigned as Seamless Unified Pill) -->
 <section class="container max-w-5xl mx-auto px-4 relative z-20 -mt-24 md:-mt-32 mb-16">
-    <div class="bg-white/80 backdrop-blur-xl border border-white p-2 rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.05)]">
-        <form class="flex flex-col md:flex-row gap-2">
+    <div class="bg-white/90 backdrop-blur-2xl border border-white/60 p-2 md:p-2.5 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.08)]">
+        <form class="flex flex-col md:flex-row items-stretch divide-y md:divide-y-0 md:divide-x divide-gray-100">
             
-            <div class="flex-1 bg-white border border-border rounded-t-[1.5rem] md:rounded-l-[1.5rem] md:rounded-tr-none px-6 py-4 flex items-center gap-4 group transition-colors focus-within:border-primary">
-                <i data-lucide="map-pin" class="h-6 w-6 text-gray-400 group-focus-within:text-primary transition-colors"></i>
+            <div class="flex-1 w-full flex items-center gap-4 px-6 md:px-8 py-5 hover:bg-slate-50/50 rounded-t-[2rem] md:rounded-l-[2rem] md:rounded-tr-none transition-colors group cursor-text">
+                <i data-lucide="map-pin" class="h-6 w-6 text-slate-400 group-focus-within:text-primary transition-colors"></i>
                 <div class="w-full">
-                    <label class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1 block">Lokasi</label>
-                    <input type="text" class="w-full border-0 p-0 text-foreground font-semibold placeholder:text-gray-300 focus:ring-0 text-base bg-transparent" placeholder="Contoh: Bali, Solo, Bromo...">
+                    <label class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1 block">Lokasi</label>
+                    <input type="text" class="w-full border-0 p-0 text-slate-800 font-bold placeholder:text-slate-300 focus:ring-0 text-base bg-transparent outline-none" placeholder="Contoh: Bali, Solo, Bromo...">
                 </div>
             </div>
             
-            <div class="flex-1 bg-white border border-border px-6 py-4 flex items-center gap-4 group transition-colors focus-within:border-primary">
-                <i data-lucide="layout-grid" class="h-6 w-6 text-gray-400 group-focus-within:text-primary transition-colors"></i>
-                <div class="w-full">
-                    <label class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1 block">Kategori</label>
-                    <select class="w-full border-0 p-0 text-foreground font-semibold bg-transparent focus:ring-0 cursor-pointer appearance-none">
+            <div class="flex-1 w-full flex items-center gap-4 px-6 md:px-8 py-5 hover:bg-slate-50/50 transition-colors group relative cursor-pointer">
+                <i data-lucide="layout-grid" class="h-6 w-6 text-slate-400 group-focus-within:text-primary transition-colors"></i>
+                <div class="w-full pr-8">
+                    <label class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1 block">Kategori</label>
+                    <select class="w-full border-0 p-0 text-slate-800 font-bold bg-transparent focus:ring-0 cursor-pointer appearance-none outline-none">
                         <option>Semua (Wisata, Pemandu, Kuliner)</option>
                         <option>Hanya Destinasi Wisata</option>
                         <option>Pemandu Lokal (Tour Guide)</option>
                         <option>Rekomendasi Kuliner</option>
                     </select>
                 </div>
+                <!-- Custom Chevron -->
+                <div class="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none">
+                    <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400"></i>
+                </div>
             </div>
 
-            <div class="w-full md:w-auto p-2">
-                <button type="submit" class="w-full md:w-auto h-full min-h-[60px] inline-flex items-center justify-center rounded-2xl md:rounded-[1.25rem] bg-accent px-8 py-4 text-base font-bold text-white shadow-lg shadow-orange-500/20 hover:bg-orange-500 transition-all active:scale-95 no-underline">
+            <div class="w-full md:w-auto p-1.5 md:pl-2">
+                <button type="submit" class="w-full md:w-auto h-full min-h-[64px] inline-flex items-center justify-center rounded-full bg-accent px-10 py-4 text-lg font-bold text-white shadow-lg shadow-amber-500/30 hover:bg-amber-600 transition-all active:scale-95 border-0 outline-none" style="border: none !important; outline: none !important;">
                     <i data-lucide="search" class="mr-2 h-5 w-5"></i> Cari
                 </button>
             </div>

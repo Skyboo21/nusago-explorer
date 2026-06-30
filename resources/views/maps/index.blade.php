@@ -80,17 +80,9 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const destinasi = [
-        { nama: "Taman Nasional Komodo", lat: -8.5435, lng: 119.4231, lokasi: "Kabupaten Manggarai Barat, NTT", kategori: "Alam" },
-        { nama: "Raja Ampat", lat: -0.2333, lng: 130.5167, lokasi: "Kabupaten Raja Ampat, Papua Barat Daya", kategori: "Alam" },
-        { nama: "Wae Rebo", lat: -8.7695, lng: 120.2828, lokasi: "Manggarai, NTT", kategori: "Budaya" },
-        { nama: "Candi Borobudur", lat: -7.6079, lng: 110.2038, lokasi: "Magelang, Jawa Tengah", kategori: "Sejarah" },
-        { nama: "Nusa Penida", lat: -8.7278, lng: 115.5444, lokasi: "Klungkung, Bali", kategori: "Alam" },
-        { nama: "Gunung Bromo", lat: -7.9425, lng: 112.9530, lokasi: "Jawa Timur", kategori: "Alam" }
-    ];
-
     // Hitung jarak (Haversine formula)
     function hitungJarak(lat1, lng1, lat2, lng2) {
         const R = 6371;
@@ -135,62 +127,96 @@ document.addEventListener('DOMContentLoaded', function() {
                     .bindPopup('<strong style="color: #0F766E; font-family: Inter, sans-serif;">Lokasi Kamu</strong>')
                     .openPopup();
 
-                map.setView([userLat, userLng], 8);
+                map.setView([userLat, userLng], 9);
 
-                // Hitung jarak ke semua destinasi
-                const withDistance = destinasi.map(d => ({
-                    ...d,
-                    jarak: hitungJarak(userLat, userLng, d.lat, d.lng)
-                })).sort((a, b) => a.jarak - b.jarak);
+                // Mengambil destinasi terdekat dari Overpass API dengan radius 100km
+                axios.post('/api/rekomendasi-wisata', {
+                    latitude: userLat,
+                    longitude: userLng,
+                    radius: 100000 // 100km
+                })
+                .then(function(response) {
+                    const tempatWisata = response.data.data;
+                    if(!tempatWisata || tempatWisata.length === 0) {
+                        document.getElementById('wisataList').innerHTML = `<div class="col-span-full text-center text-muted-foreground py-10">Belum ada destinasi ditemukan dalam radius 100km.</div>`;
+                        return;
+                    }
 
-                // Marker semua destinasi
-                withDistance.forEach(d => {
-                    L.marker([d.lat, d.lng], { icon: redIcon })
-                        .addTo(map)
-                        .bindPopup(`<strong style="font-family: Inter, sans-serif;">${d.nama}</strong><br><span style="color: #64748b; font-family: Inter, sans-serif;">${d.lokasi}</span>`);
-                });
+                    const destinasiDiformat = [];
+                    tempatWisata.forEach(tempat => {
+                        if(tempat.tags && tempat.tags.name && tempat.lat && tempat.lon) {
+                            destinasiDiformat.push({
+                                nama: tempat.tags.name,
+                                lat: tempat.lat,
+                                lng: tempat.lon,
+                                lokasi: "Destinasi terdekat dari kamu",
+                                kategori: tempat.tags.tourism ? (tempat.tags.tourism.charAt(0).toUpperCase() + tempat.tags.tourism.slice(1)) : "Wisata"
+                            });
+                        }
+                    });
 
-                // Update info panel
-                document.getElementById('nearestWisata').textContent = withDistance[0].nama;
-                document.getElementById('nearestDistance').textContent =
-                    withDistance[0].jarak < 1
-                        ? `${(withDistance[0].jarak * 1000).toFixed(0)} meter`
-                        : `${withDistance[0].jarak.toFixed(1)} km`;
+                    // Hitung jarak ke semua destinasi dan urutkan
+                    const withDistance = destinasiDiformat.map(d => ({
+                        ...d,
+                        jarak: hitungJarak(userLat, userLng, d.lat, d.lng)
+                    })).sort((a, b) => a.jarak - b.jarak);
 
-                // Render daftar wisata
-                const listEl = document.getElementById('wisataList');
-                listEl.innerHTML = withDistance.map((d, i) => `
-                    <div class="group flex flex-col sm:flex-row items-center gap-5 p-5 rounded-[1.5rem] bg-white border border-gray-100 hover:border-primary/30 hover:shadow-md transition-all duration-300 h-full w-full relative overflow-hidden">
-                        
-                        <!-- Peringkat / Jarak Icon -->
-                        <div class="w-14 h-14 shrink-0 rounded-2xl flex items-center justify-center font-bold text-xl ${i === 0 ? 'bg-primary text-white shadow-md shadow-primary/20' : 'bg-orange-50 text-accent group-hover:scale-110 transition-transform'}">
-                            ${i + 1}
-                        </div>
-                        
-                        <!-- Info -->
-                        <div class="flex-grow text-center sm:text-left">
-                            <h4 class="font-bold text-foreground text-lg mb-1">${d.nama}</h4>
-                            <p class="text-muted-foreground text-sm flex items-center justify-center sm:justify-start gap-1">
-                                <i data-lucide="map-pin" class="h-3.5 w-3.5 opacity-70"></i> ${d.lokasi}
-                            </p>
-                        </div>
+                    // Marker semua destinasi
+                    withDistance.forEach(d => {
+                        L.marker([d.lat, d.lng], { icon: redIcon })
+                            .addTo(map)
+                            .bindPopup(`<strong style="font-family: Inter, sans-serif;">${d.nama}</strong><br><span style="color: #64748b; font-family: Inter, sans-serif;">${d.lokasi}</span>`);
+                    });
 
-                        <!-- Jarak & Kategori -->
-                        <div class="sm:text-right shrink-0 mt-3 sm:mt-0 pt-3 sm:pt-0 border-t sm:border-t-0 sm:border-l border-gray-100 sm:pl-5 w-full sm:w-auto text-center">
-                            <div class="font-bold text-xl text-foreground mb-1">
-                                ${d.jarak < 1 ? (d.jarak * 1000).toFixed(0) + '<span class="text-sm font-medium text-muted-foreground ml-1">m</span>' : d.jarak.toFixed(1) + '<span class="text-sm font-medium text-muted-foreground ml-1">km</span>'}
+                    if(withDistance.length > 0) {
+                        // Update info panel
+                        document.getElementById('nearestWisata').textContent = withDistance[0].nama;
+                        document.getElementById('nearestDistance').textContent =
+                            withDistance[0].jarak < 1
+                                ? `${(withDistance[0].jarak * 1000).toFixed(0)} meter`
+                                : `${withDistance[0].jarak.toFixed(1)} km`;
+
+                        // Render daftar wisata
+                        const listEl = document.getElementById('wisataList');
+                        listEl.innerHTML = withDistance.slice(0, 10).map((d, i) => `
+                            <div class="group flex flex-col sm:flex-row items-center gap-5 p-5 rounded-[1.5rem] bg-white border border-gray-100 hover:border-primary/30 hover:shadow-md transition-all duration-300 h-full w-full relative overflow-hidden">
+                                
+                                <!-- Peringkat / Jarak Icon -->
+                                <div class="w-14 h-14 shrink-0 rounded-2xl flex items-center justify-center font-bold text-xl ${i === 0 ? 'bg-primary text-white shadow-md shadow-primary/20' : 'bg-orange-50 text-accent group-hover:scale-110 transition-transform'}">
+                                    ${i + 1}
+                                </div>
+                                
+                                <!-- Info -->
+                                <div class="flex-grow text-center sm:text-left">
+                                    <h4 class="font-bold text-foreground text-lg mb-1">${d.nama}</h4>
+                                    <p class="text-muted-foreground text-sm flex items-center justify-center sm:justify-start gap-1">
+                                        <i data-lucide="map-pin" class="h-3.5 w-3.5 opacity-70"></i> ${d.lokasi}
+                                    </p>
+                                </div>
+
+                                <!-- Jarak & Kategori -->
+                                <div class="sm:text-right shrink-0 mt-3 sm:mt-0 pt-3 sm:pt-0 border-t sm:border-t-0 sm:border-l border-gray-100 sm:pl-5 w-full sm:w-auto text-center">
+                                    <div class="font-bold text-xl text-foreground mb-1">
+                                        ${d.jarak < 1 ? (d.jarak * 1000).toFixed(0) + '<span class="text-sm font-medium text-muted-foreground ml-1">m</span>' : d.jarak.toFixed(1) + '<span class="text-sm font-medium text-muted-foreground ml-1">km</span>'}
+                                    </div>
+                                    <span class="inline-block px-2.5 py-0.5 rounded-full bg-gray-50 border border-gray-200 text-xs font-medium text-muted-foreground">
+                                        ${d.kategori}
+                                    </span>
+                                </div>
                             </div>
-                            <span class="inline-block px-2.5 py-0.5 rounded-full bg-gray-50 border border-gray-200 text-xs font-medium text-muted-foreground">
-                                ${d.kategori}
-                            </span>
-                        </div>
-                    </div>
-                `).join('');
+                        `).join('');
+                    } else {
+                        document.getElementById('nearestWisata').textContent = "-";
+                        document.getElementById('nearestDistance').textContent = "-";
+                        document.getElementById('wisataList').innerHTML = `<div class="col-span-full text-center text-muted-foreground py-10">Data tidak ditemukan.</div>`;
+                    }
 
-                // Render lucide icons for newly added HTML
-                if (window.lucide) {
-                    window.lucide.createIcons();
-                }
+                    if (window.lucide) { window.lucide.createIcons(); }
+                })
+                .catch(function(error) {
+                    console.error("Gagal mengambil data dari API: ", error);
+                    document.getElementById('wisataList').innerHTML = `<div class="col-span-full text-center text-red-500 py-10">Gagal mengambil data destinasi terdekat.</div>`;
+                });
             },
             error => {
                 document.getElementById('loadingOverlay').style.display = 'none';

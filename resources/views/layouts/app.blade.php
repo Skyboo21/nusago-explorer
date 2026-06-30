@@ -132,7 +132,7 @@
 
                 @auth
                     <a href="{{ route('maps.index') }}" class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 text-decoration-none {{ request()->routeIs('maps.index') ? 'bg-teal-50 text-primary' : 'text-gray-600 hover:bg-gray-50 hover:text-primary' }}">Peta</a>
-                    <a href="{{ route('virtual-camera.index') }}" class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 text-decoration-none {{ request()->routeIs('virtual-camera.index') ? 'bg-teal-50 text-primary' : 'text-gray-600 hover:bg-gray-50 hover:text-primary' }}">Virtual</a>
+
                     <a href="{{ route('chatbot.index') }}" class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 text-decoration-none {{ request()->routeIs('chatbot.index') ? 'bg-teal-50 text-primary' : 'text-gray-600 hover:bg-gray-50 hover:text-primary' }}">Chatbot</a>
                     <a href="{{ route('review.index') }}" class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 text-decoration-none {{ request()->routeIs('review.index') ? 'bg-teal-50 text-primary' : 'text-gray-600 hover:bg-gray-50 hover:text-primary' }}">Review</a>
 
@@ -172,7 +172,7 @@
                 
                 @auth
                     <a href="{{ route('maps.index') }}" class="text-gray-700 font-medium py-2 text-decoration-none flex items-center gap-2"><i data-lucide="map-location-dot" class="w-5 h-5"></i> Peta</a>
-                    <a href="{{ route('virtual-camera.index') }}" class="text-gray-700 font-medium py-2 text-decoration-none flex items-center gap-2"><i data-lucide="camera" class="w-5 h-5"></i> Virtual</a>
+
                     <a href="{{ route('chatbot.index') }}" class="text-gray-700 font-medium py-2 text-decoration-none flex items-center gap-2"><i data-lucide="robot" class="w-5 h-5"></i> Chatbot</a>
                     <a href="{{ route('review.index') }}" class="text-gray-700 font-medium py-2 text-decoration-none flex items-center gap-2"><i data-lucide="star" class="w-5 h-5"></i> Review</a>
                     
