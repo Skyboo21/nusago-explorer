@@ -94,13 +94,13 @@
 <!-- Search Box (Redesigned as Seamless Unified Pill) -->
 <section class="container max-w-5xl mx-auto px-4 relative z-20 -mt-24 md:-mt-32 mb-16">
     <div class="bg-white/90 backdrop-blur-2xl border border-white/60 p-2 md:p-2.5 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.08)]">
-        <form class="flex flex-col md:flex-row items-stretch divide-y md:divide-y-0 md:divide-x divide-gray-100">
+        <form action="{{ route('search') }}" method="GET" class="flex flex-col md:flex-row items-stretch divide-y md:divide-y-0 md:divide-x divide-gray-100">
             
             <div class="flex-1 w-full flex items-center gap-4 px-6 md:px-8 py-5 hover:bg-slate-50/50 rounded-t-[2rem] md:rounded-l-[2rem] md:rounded-tr-none transition-colors group cursor-text">
                 <i data-lucide="map-pin" class="h-6 w-6 text-slate-400 group-focus-within:text-primary transition-colors"></i>
                 <div class="w-full">
                     <label class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1 block">Lokasi</label>
-                    <input type="text" class="w-full border-0 p-0 text-slate-800 font-bold placeholder:text-slate-300 focus:ring-0 text-base bg-transparent outline-none" placeholder="Contoh: Bali, Solo, Bromo...">
+                    <input type="text" name="q" class="w-full border-0 p-0 text-slate-800 font-bold placeholder:text-slate-300 focus:ring-0 text-base bg-transparent outline-none" placeholder="Contoh: Bali, Solo, Bromo..." value="{{ request('q') }}">
                 </div>
             </div>
             
@@ -108,11 +108,11 @@
                 <i data-lucide="layout-grid" class="h-6 w-6 text-slate-400 group-focus-within:text-primary transition-colors"></i>
                 <div class="w-full pr-8">
                     <label class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1 block">Kategori</label>
-                    <select class="w-full border-0 p-0 text-slate-800 font-bold bg-transparent focus:ring-0 cursor-pointer appearance-none outline-none">
-                        <option>Semua (Wisata, Pemandu, Kuliner)</option>
-                        <option>Hanya Destinasi Wisata</option>
-                        <option>Pemandu Lokal (Tour Guide)</option>
-                        <option>Rekomendasi Kuliner</option>
+                    <select name="kategori" class="w-full border-0 p-0 text-slate-800 font-bold bg-transparent focus:ring-0 cursor-pointer appearance-none outline-none">
+                        <option value="all">Semua (Wisata, Pemandu, Kuliner)</option>
+                        <option value="wisata">Hanya Destinasi Wisata</option>
+                        <option value="pemandu">Pemandu Lokal (Tour Guide)</option>
+                        <option value="kuliner">Rekomendasi Kuliner</option>
                     </select>
                 </div>
                 <!-- Custom Chevron -->

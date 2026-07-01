@@ -4,16 +4,17 @@ $app = require_once __DIR__.'/bootstrap/app.php';
 $kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
 $kernel->bootstrap();
 
-$videos = [
-    ['nama' => 'Danau Toba', 'id' => 'uN5WqQYwzSg'],
-    ['nama' => 'Tana Toraja', 'id' => 'uN5WqQYwzSg'],
-    ['nama' => 'Kepulauan Derawan', 'id' => 'uN5WqQYwzSg'],
-    ['nama' => 'Kawah Ijen', 'id' => 'uN5WqQYwzSg']
-];
+// Fix Candi Borobudur
+App\Models\Wisata::where('nama_wisata', 'like', '%Borobudur%')
+    ->update([
+        'gambar' => 'https://images.unsplash.com/photo-1596402184320-417e7178b2cd?auto=format&fit=crop&q=80&w=1200'
+    ]);
 
-foreach ($videos as $v) {
-    App\Models\Wisata::where('nama_wisata', 'like', '%' . $v['nama'] . '%')
-        ->update(['video_url' => 'https://www.youtube.com/embed/' . $v['id']]);
-}
+// Fix Pantai Klayar
+App\Models\Wisata::where('nama_wisata', 'like', '%Klayar%')
+    ->update([
+        'gambar' => 'https://images.unsplash.com/photo-1587802496229-2708365851de?auto=format&fit=crop&q=80&w=1200',
+        'video_url' => 'https://www.youtube.com/embed/uN5WqQYwzSg'
+    ]);
 
-echo "Updated problematic videos to default Wonderful Indonesia video!";
+echo "Updated missing photos and videos for Borobudur and Klayar!";

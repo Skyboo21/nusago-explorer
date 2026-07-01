@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\KelolaReviewController;
 use App\Http\Controllers\Admin\DatabaseGuideController;
 use App\Http\Controllers\WisataController; // <-- TAMBAHAN BARU
 use App\Http\Controllers\KulinerController;
+use App\Http\Controllers\SearchController;
 
 // Halaman Utama dipindah ke dalam auth
 
@@ -28,6 +29,7 @@ Route::middleware('guest')->group(function () {
 Route::get('/', function () {
     return view('home');
 });
+Route::get('/search', [SearchController::class, 'index'])->name('search');
 
 // Route untuk pengguna yang SUDAH LOGIN (Auth)
 Route::middleware('auth')->group(function () {
@@ -103,4 +105,10 @@ Route::get('/explorer', function () {
 Route::get('/landing-page', function () {
     return view('landing-page');
 });
+
+// Route Khusus untuk Testing/Pembuktian API PENGUNJUNG di Praktikum
+Route::get('/tes-api', function () {
+    return view('tes-api');
+});
+
 

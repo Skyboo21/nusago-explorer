@@ -10,9 +10,18 @@
             </h1>
             <p class="text-muted-foreground mt-2">Daftar semua akun yang terdaftar di Nusago Explorer</p>
         </div>
-        <a href="{{ route('admin.dashboard') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-xl text-gray-700 hover:bg-gray-50 hover:text-primary transition-all shadow-sm text-sm font-medium text-decoration-none">
-            <i data-lucide="arrow-left" class="h-4 w-4"></i> Kembali ke Dasbor
-        </a>
+        <div class="flex items-center gap-3">
+            <!-- Search Form -->
+            <form action="{{ route('admin.pengunjung.index') }}" method="GET" class="flex gap-2">
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama pengunjung..." class="px-4 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary">
+                <button type="submit" class="px-4 py-2 bg-primary text-white rounded-xl text-sm font-medium hover:bg-primary/90 transition-all">
+                    Cari
+                </button>
+            </form>
+            <a href="{{ route('admin.dashboard') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-xl text-gray-700 hover:bg-gray-50 hover:text-primary transition-all shadow-sm text-sm font-medium text-decoration-none">
+                <i data-lucide="arrow-left" class="h-4 w-4"></i> Kembali ke Dasbor
+            </a>
+        </div>
     </div>
 
     @if(session('success'))
