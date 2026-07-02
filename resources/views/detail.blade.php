@@ -45,7 +45,7 @@
                     </div>
                     <div class="rounded-4 overflow-hidden shadow-sm mb-4" style="height: 400px; border: 3px solid #f8f9fa;">
                         <iframe width="100%" height="100%" frameborder="0" style="border:0"
-                            src="https://www.google.com/maps/embed/v1/streetview?key={{ env('GOOGLE_MAPS_API_KEY') }}&location={{ $dataWisata->lat }},{{ $dataWisata->lng }}&heading=210&pitch=10&fov=90"
+                            src="https://maps.google.com/maps?q=&layer=c&cbll={{ $dataWisata->lat }},{{ $dataWisata->lng }}&cbp=11,0,0,0,0&output=svembed"
                             allowfullscreen>
                         </iframe>
                     </div>
