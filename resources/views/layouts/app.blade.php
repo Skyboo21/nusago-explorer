@@ -139,7 +139,11 @@
                     <!-- User Profile Dropdown -->
                     <div class="relative ml-2" x-data="{ dropdownOpen: false }">
                         <button @click="dropdownOpen = !dropdownOpen" @click.away="dropdownOpen = false" class="flex items-center gap-2 p-0 border-0 bg-transparent">
-                            <div class="avatar-circle text-uppercase">{{ substr(Auth::user()->name, 0, 2) }}</div>
+                            @if(Auth::user()->avatar)
+                                <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="Avatar" class="w-10 h-10 rounded-full object-cover border-2 border-primary/20 shadow-sm transition-transform hover:scale-105">
+                            @else
+                                <div class="avatar-circle text-uppercase">{{ substr(Auth::user()->name, 0, 2) }}</div>
+                            @endif
                         </button>
                         
                         <div x-show="dropdownOpen" x-transition.opacity style="display: none;" class="absolute right-0 mt-3 w-48 bg-white rounded-2xl shadow-lg border border-border py-2 overflow-hidden z-50">
