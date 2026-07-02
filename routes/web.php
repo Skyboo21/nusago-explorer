@@ -37,6 +37,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+    // Profil & Pengaturan
+    Route::get('/profile/settings', [\App\Http\Controllers\ProfileController::class, 'edit'])->name('profile.settings');
+    Route::put('/profile/settings', [\App\Http\Controllers\ProfileController::class, 'updateProfile'])->name('profile.update');
+    Route::put('/profile/password', [\App\Http\Controllers\ProfileController::class, 'updatePassword'])->name('profile.password');
+
     // Fitur Review & Rating
     Route::get('/review', [ReviewController::class, 'index'])->name('review.index');
     Route::post('/review', [ReviewController::class, 'store'])->name('review.store');

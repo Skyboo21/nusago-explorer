@@ -25,6 +25,8 @@ class DashboardController extends Controller
     {
         // Mengambil seluruh data pengguna yang sedang login dari database
         $user = Auth::user();
+        
+        $avatarUrl = $user->avatar ? asset('storage/' . $user->avatar) : 'https://ui-avatars.com/api/?name=' . urlencode($user->name) . '&background=e3342f&color=fff&size=128';
 
         return [
             'nama' => $user->name,
@@ -37,8 +39,8 @@ class DashboardController extends Controller
             'asal' => 'Penjelajah Nusantara',
             'bio' => 'Siap mencari destinasi wisata tersembunyi dan kuliner otentik.',
             
-            // Membuat URL avatar otomatis menyesuaikan inisial nama pengguna yang login
-            'avatar' => 'https://ui-avatars.com/api/?name=' . urlencode($user->name) . '&background=e3342f&color=fff&size=128'
+            // Membuat URL avatar otomatis menyesuaikan foto atau inisial nama pengguna yang login
+            'avatar' => $avatarUrl
         ];
     }
 
@@ -68,7 +70,7 @@ class DashboardController extends Controller
             ['nama' => 'Peta Lokasi', 'url' => route('maps.index'), 'icon' => 'fa-regular fa-map'],
             ['nama' => 'Misi Harian', 'url' => '#', 'icon' => 'fa-solid fa-bullseye'],
             ['nama' => 'Kuliner', 'url' => route('kuliner'), 'icon' => 'fa-solid fa-utensils'],
-            ['nama' => 'Pengaturan', 'url' => '#', 'icon' => 'fa-solid fa-gear'],
+            ['nama' => 'Pengaturan', 'url' => route('profile.settings'), 'icon' => 'fa-solid fa-gear'],
         ];
 
         if (Auth::check() && Auth::user()->role === 'admin') {
