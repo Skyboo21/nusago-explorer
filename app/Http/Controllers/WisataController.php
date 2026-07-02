@@ -31,7 +31,9 @@ class WisataController extends Controller
                 'tags' => [
                     'name' => $item->nama_wisata,
                     'tourism' => 'attraction',
-                    'source' => 'local_db'
+                    'source' => 'local_db',
+                    'image' => $item->gambar,
+                    'id_db' => $item->id
                 ]
             ];
         })

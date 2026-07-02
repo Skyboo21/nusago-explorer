@@ -270,12 +270,28 @@
                     const tipe = tempat.tags.tourism || 'Wisata';
                     let urlDetail = `/detail-wisata?nama=${encodeURIComponent(tempat.tags.name)}`;
                     
+                    // Logic untuk menampilkan foto asli dari database (jika ada)
+                    let fotoDestinasi = 'https://images.unsplash.com/photo-1542898717-3bf7918d2eb4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'; // Gambar Default
+                    
+                    if (tempat.tags.image) {
+                        // Jika gambar dari database (bisa link URL, atau file lokal)
+                        if(tempat.tags.image.startsWith('http')) {
+                            fotoDestinasi = tempat.tags.image;
+                        } else if(tempat.tags.image.includes('/')) {
+                            // Untuk gambar hasil upload (storage)
+                            fotoDestinasi = '/storage/' + tempat.tags.image;
+                        } else {
+                            // Untuk gambar dummy seeder yang langsung nama file
+                            fotoDestinasi = '/img/' + tempat.tags.image;
+                        }
+                    }
+
                     // Card style modernized matching landing-page.tsx bento cards
                     html += `
                     <div class="carousel-card group relative overflow-hidden rounded-[1.5rem] bg-white border border-border shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full cursor-pointer" onclick="window.location.href='${urlDetail}'">
                         <div class="h-40 bg-muted flex items-center justify-center overflow-hidden relative">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10"></div>
-                            <img src="https://images.unsplash.com/photo-1542898717-3bf7918d2eb4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="Placeholder">
+                            <img src="${fotoDestinasi}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="${tempat.tags.name}">
                             
                             <div class="absolute top-3 right-3 z-20">
                                 <span class="inline-flex items-center rounded-full bg-white/90 backdrop-blur-sm px-2.5 py-1 text-xs font-bold text-primary">
