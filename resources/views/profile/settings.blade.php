@@ -73,7 +73,7 @@
                         <div class="flex items-start gap-6">
                             <div class="relative group cursor-pointer" onclick="document.getElementById('avatar_upload').click()">
                                 @php
-                                    $avatarUrl = $user->avatar ? asset('storage/' . $user->avatar) : 'https://ui-avatars.com/api/?name=' . urlencode($user->name) . '&background=e3342f&color=fff&size=128';
+                                    $avatarUrl = $user->avatar ? $user->avatar : 'https://ui-avatars.com/api/?name=' . urlencode($user->name) . '&background=e3342f&color=fff&size=128';
                                 @endphp
                                 <img src="{{ $avatarUrl }}" id="avatar_preview" alt="Foto Profil" class="w-24 h-24 rounded-full object-cover border-4 border-gray-50 shadow-sm transition-transform group-hover:scale-105">
                                 <div class="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">

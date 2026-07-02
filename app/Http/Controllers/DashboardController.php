@@ -26,7 +26,8 @@ class DashboardController extends Controller
         // Mengambil seluruh data pengguna yang sedang login dari database
         $user = Auth::user();
         
-        $avatarUrl = $user->avatar ? asset('storage/' . $user->avatar) : 'https://ui-avatars.com/api/?name=' . urlencode($user->name) . '&background=e3342f&color=fff&size=128';
+        // Membuat URL avatar otomatis menyesuaikan foto base64 atau inisial nama pengguna yang login
+        $avatarUrl = $user->avatar ? $user->avatar : 'https://ui-avatars.com/api/?name=' . urlencode($user->name) . '&background=e3342f&color=fff&size=128';
 
         return [
             'nama' => $user->name,

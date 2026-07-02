@@ -35,14 +35,12 @@ class ProfileController extends Controller
         $user->email = $request->email;
 
         if ($request->hasFile('avatar')) {
-            // Hapus avatar lama jika ada
-            if ($user->avatar && Storage::disk('public')->exists($user->avatar)) {
-                Storage::disk('public')->delete($user->avatar);
-            }
-
-            // Simpan file avatar yang baru
-            $avatarPath = $request->file('avatar')->store('avatars', 'public');
-            $user->avatar = $avatarPath;
+            $file = $request->file('avatar');
+            $base64 = base64_encode(file_get_contents($file->getRealPath()));
+            $mime = $file->getClientMimeType();
+            
+            // Simpan sebagai string base64 langsung ke database
+            $user->avatar = 'data:' . $mime . ';base64,' . $base64;
         }
 
         $user->save();
