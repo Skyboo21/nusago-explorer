@@ -82,7 +82,7 @@
                             </div>
                             <div class="flex-1">
                                 <label class="block text-sm font-semibold text-foreground mb-2">Foto Profil</label>
-                                <input type="file" name="avatar" id="avatar_upload" accept="image/*" class="hidden" onchange="previewImage(this)">
+                                <input type="file" name="avatar" id="avatar_upload" accept="image/*" class="hidden" onchange="previewImage(this); this.closest('form').submit();">
                                 <button type="button" onclick="document.getElementById('avatar_upload').click()" class="px-4 py-2 bg-white border border-border rounded-xl text-sm font-medium hover:bg-gray-50 transition-colors">
                                     Pilih Foto Baru
                                 </button>
