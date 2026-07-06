@@ -129,16 +129,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 map.setView([userLat, userLng], 9);
 
-                // Mengambil destinasi terdekat dari API dengan radius 500km
+                // Mengambil destinasi terdekat dari API dengan radius 75km
                 axios.post('/api/rekomendasi-wisata', {
                     latitude: userLat,
                     longitude: userLng,
-                    radius: 500000 // 500km
+                    radius: 75000 // 75km
                 })
                 .then(function(response) {
                     const tempatWisata = response.data.data;
                     if(!tempatWisata || tempatWisata.length === 0) {
-                        document.getElementById('wisataList').innerHTML = `<div class="col-span-full text-center text-muted-foreground py-10">Belum ada destinasi ditemukan dalam radius 500km.</div>`;
+                        document.getElementById('wisataList').innerHTML = `<div class="col-span-full text-center text-muted-foreground py-10">Belum ada destinasi ditemukan dalam radius 75km.</div>`;
                         return;
                     }
 
