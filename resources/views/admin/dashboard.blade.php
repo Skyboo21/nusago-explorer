@@ -99,6 +99,13 @@
                     <span class="font-medium text-xs sm:text-sm text-gray-900 text-center">Kelola Wisata</span>
                 </a>
                 
+                <a href="{{ route('admin.kuliner.index') }}" class="flex flex-col items-center justify-center p-4 sm:p-6 rounded-[1.25rem] sm:rounded-[1.5rem] bg-gray-50 border border-gray-100 hover:bg-primary/5 hover:border-primary/20 hover:-translate-y-1 transition-all group text-decoration-none">
+                    <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white flex items-center justify-center shadow-sm text-primary mb-2 sm:mb-3 group-hover:scale-110 transition-transform">
+                        <i data-lucide="utensils" class="h-5 w-5 sm:h-6 sm:w-6"></i>
+                    </div>
+                    <span class="font-medium text-xs sm:text-sm text-gray-900 text-center">Kelola Kuliner</span>
+                </a>
+                
                 <a href="{{ route('admin.review.index') }}" class="flex flex-col items-center justify-center p-4 sm:p-6 rounded-[1.25rem] sm:rounded-[1.5rem] bg-gray-50 border border-gray-100 hover:bg-primary/5 hover:border-primary/20 hover:-translate-y-1 transition-all group text-decoration-none">
                     <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white flex items-center justify-center shadow-sm text-primary mb-2 sm:mb-3 group-hover:scale-110 transition-transform">
                         <i data-lucide="message-square" class="h-5 w-5 sm:h-6 sm:w-6"></i>
