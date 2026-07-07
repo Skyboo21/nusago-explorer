@@ -60,15 +60,13 @@
             
             <div class="space-y-3 sm:space-y-4">
                 @forelse($pengunjungBaru as $p)
-                    <div class="flex items-center justify-between p-3 sm:p-4 rounded-2xl bg-gray-50/50 border border-gray-100 hover:bg-gray-50 transition-colors">
-                        <div class="flex items-center gap-3">
-                            <img src="https://ui-avatars.com/api/?name={{ urlencode($p->name) }}&background=e3342f&color=fff&size=40" class="w-8 h-8 sm:w-10 sm:h-10 rounded-full shadow-sm">
-                            <div>
-                                <p class="text-xs sm:text-sm font-semibold text-gray-900 m-0">{{ $p->name }}</p>
-                                <p class="text-[10px] sm:text-xs text-gray-500 m-0 truncate w-32 sm:w-auto">{{ $p->email }}</p>
-                            </div>
+                    <div class="flex items-center gap-3 p-3 sm:p-4 rounded-2xl bg-gray-50 border border-gray-100 hover:bg-gray-100/50 transition-colors">
+                        <img src="https://ui-avatars.com/api/?name={{ urlencode($p->name) }}&background=e3342f&color=fff&size=40" class="w-10 h-10 rounded-full shadow-sm flex-shrink-0">
+                        <div class="flex-1 min-w-0">
+                            <p class="text-sm font-semibold text-gray-900 m-0 truncate">{{ $p->name }}</p>
+                            <p class="text-xs text-gray-500 m-0 truncate">{{ $p->email }}</p>
                         </div>
-                        <span class="text-[10px] sm:text-xs font-medium text-gray-500 bg-white px-2 py-1 rounded-lg border border-gray-200 whitespace-nowrap">
+                        <span class="text-[10px] sm:text-xs font-medium text-gray-500 bg-white px-2 py-1 rounded-lg border border-gray-200 whitespace-nowrap flex-shrink-0">
                             {{ $p->created_at->diffForHumans() }}
                         </span>
                     </div>
