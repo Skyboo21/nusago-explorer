@@ -42,7 +42,7 @@ class WisataController extends Controller
         ->toArray();
 
         // 2. Query Overpass API (cari wisata)
-        $overpassQuery = "[out:json];node(around:{$radius},{$lat},{$lng})['tourism'~'attraction|museum|viewpoint|theme_park|zoo'];out 15;";
+        $overpassQuery = "[out:json];node(around:{$radius},{$lat},{$lng})['tourism'~'attraction|museum|viewpoint|theme_park|zoo']['name'];out 20;";
         
         try {
             $response = Http::withHeaders([
