@@ -169,28 +169,30 @@
 
         <!-- Mobile Menu -->
         <div x-show="mobileMenuOpen" style="display: none;" x-transition class="lg:hidden bg-white border-t border-border shadow-lg absolute top-full left-0 w-full z-40">
-            <div class="flex flex-col px-4 py-4 space-y-3">
-                <a href="/" class="text-gray-700 font-medium py-2 text-decoration-none flex items-center gap-2"><i data-lucide="house" class="w-5 h-5"></i> Beranda</a>
-                <a href="{{ route('destinasi') }}" class="text-gray-700 font-medium py-2 text-decoration-none flex items-center gap-2"><i data-lucide="location-dot" class="w-5 h-5"></i> Destinasi</a>
-                <a href="{{ route('kuliner') }}" class="text-gray-700 font-medium py-2 text-decoration-none flex items-center gap-2"><i data-lucide="utensils" class="w-5 h-5"></i> Kuliner</a>
+            <div class="flex flex-col px-4 py-3 space-y-1">
+                <a href="/" class="font-medium py-2.5 px-3 rounded-lg text-decoration-none flex items-center gap-3 transition-colors {{ request()->is('/') ? 'bg-teal-50 text-primary' : 'text-gray-700 hover:bg-gray-50' }}"><i data-lucide="home" class="w-5 h-5"></i> Beranda</a>
+                <a href="{{ route('destinasi') }}" class="font-medium py-2.5 px-3 rounded-lg text-decoration-none flex items-center gap-3 transition-colors {{ request()->routeIs('destinasi') ? 'bg-teal-50 text-primary' : 'text-gray-700 hover:bg-gray-50' }}"><i data-lucide="map-pin" class="w-5 h-5"></i> Destinasi</a>
+                <a href="{{ route('kuliner') }}" class="font-medium py-2.5 px-3 rounded-lg text-decoration-none flex items-center gap-3 transition-colors {{ request()->routeIs('kuliner') ? 'bg-teal-50 text-primary' : 'text-gray-700 hover:bg-gray-50' }}"><i data-lucide="utensils" class="w-5 h-5"></i> Kuliner</a>
                 
                 @auth
-                    <a href="{{ route('maps.index') }}" class="text-gray-700 font-medium py-2 text-decoration-none flex items-center gap-2"><i data-lucide="map-location-dot" class="w-5 h-5"></i> Peta</a>
+                    <a href="{{ route('maps.index') }}" class="font-medium py-2.5 px-3 rounded-lg text-decoration-none flex items-center gap-3 transition-colors {{ request()->routeIs('maps.index') ? 'bg-teal-50 text-primary' : 'text-gray-700 hover:bg-gray-50' }}"><i data-lucide="map" class="w-5 h-5"></i> Peta</a>
 
-                    <a href="{{ route('chatbot.index') }}" class="text-gray-700 font-medium py-2 text-decoration-none flex items-center gap-2"><i data-lucide="robot" class="w-5 h-5"></i> Chatbot</a>
-                    <a href="{{ route('review.index') }}" class="text-gray-700 font-medium py-2 text-decoration-none flex items-center gap-2"><i data-lucide="star" class="w-5 h-5"></i> Review</a>
+                    <a href="{{ route('chatbot.index') }}" class="font-medium py-2.5 px-3 rounded-lg text-decoration-none flex items-center gap-3 transition-colors {{ request()->routeIs('chatbot.index') ? 'bg-teal-50 text-primary' : 'text-gray-700 hover:bg-gray-50' }}"><i data-lucide="bot" class="w-5 h-5"></i> Chatbot</a>
+                    <a href="{{ route('review.index') }}" class="font-medium py-2.5 px-3 rounded-lg text-decoration-none flex items-center gap-3 transition-colors {{ request()->routeIs('review.index') ? 'bg-teal-50 text-primary' : 'text-gray-700 hover:bg-gray-50' }}"><i data-lucide="star" class="w-5 h-5"></i> Review</a>
                     
                     <hr class="my-2 border-gray-100">
-                    <a href="{{ route('dashboard') }}" class="text-primary font-medium py-2 text-decoration-none flex items-center gap-2"><i data-lucide="layout-dashboard" class="w-5 h-5"></i> Dashboard</a>
+                    <a href="{{ route('dashboard') }}" class="font-medium py-2.5 px-3 rounded-lg text-decoration-none flex items-center gap-3 transition-colors {{ request()->routeIs('dashboard') ? 'bg-teal-50 text-primary' : 'text-gray-700 hover:bg-gray-50' }}"><i data-lucide="layout-dashboard" class="w-5 h-5"></i> Dashboard</a>
                     @if(Auth::user()->role === 'admin')
-                        <a href="{{ route('admin.dashboard') }}" class="text-red-500 font-medium py-2 text-decoration-none flex items-center gap-2"><i data-lucide="shield" class="w-5 h-5"></i> Admin Panel</a>
+                        <a href="{{ route('admin.dashboard') }}" class="font-medium py-2.5 px-3 rounded-lg text-decoration-none flex items-center gap-3 transition-colors text-red-600 hover:bg-red-50"><i data-lucide="shield" class="w-5 h-5"></i> Admin Panel</a>
                     @endif
                 @endauth
                 
                 @guest
-                    <a href="{{ route('login') }}" class="mt-2 inline-flex items-center justify-center rounded-full bg-primary px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-teal-800 text-decoration-none w-full">
-                        Masuk / Daftar
-                    </a>
+                    <div class="pt-2 pb-1">
+                        <a href="{{ route('login') }}" class="inline-flex items-center justify-center rounded-lg bg-primary px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-teal-800 text-decoration-none w-full transition-colors">
+                            Masuk / Daftar
+                        </a>
+                    </div>
                 @endguest
             </div>
         </div>
