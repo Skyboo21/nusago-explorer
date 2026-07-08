@@ -10,7 +10,7 @@ class Kuliner extends Model
     use HasFactory;
 
     // Sesuaikan dengan nama tabel baru di migration
-    protected $table = 'kuliners'; 
+    protected $table = 'kuliner'; 
 
     protected $fillable = [
         'nama_kuliner',
