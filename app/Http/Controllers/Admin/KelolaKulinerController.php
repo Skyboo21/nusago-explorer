@@ -35,7 +35,7 @@ class KelolaKulinerController extends Controller
         ]);
 
         if ($request->hasFile('gambar_kuliner')) {
-            $validated['gambar_kuliner'] = $request->file('gambar_kuliner')->store('kuliners');
+            $validated['gambar_kuliner'] = $request->file('gambar_kuliner')->store('kuliners', 'public');
         }
         $validated['is_halal'] = $request->has('is_halal');
         Kuliner::create($validated);
@@ -66,8 +66,8 @@ class KelolaKulinerController extends Controller
         ]);
 
         if ($request->hasFile('gambar_kuliner')) {
-            if ($kuliner->gambar_kuliner) Storage::delete($kuliner->gambar_kuliner);
-            $validated['gambar_kuliner'] = $request->file('gambar_kuliner')->store('kuliners');
+            if ($kuliner->gambar_kuliner) Storage::disk('public')->delete($kuliner->gambar_kuliner);
+            $validated['gambar_kuliner'] = $request->file('gambar_kuliner')->store('kuliners', 'public');
         } else {
             unset($validated['gambar_kuliner']);
         }
@@ -79,7 +79,7 @@ class KelolaKulinerController extends Controller
 
     public function destroy($id) {
         $kuliner = Kuliner::findOrFail($id);
-        if ($kuliner->gambar_kuliner) Storage::delete($kuliner->gambar_kuliner);
+        if ($kuliner->gambar_kuliner) Storage::disk('public')->delete($kuliner->gambar_kuliner);
         $kuliner->delete();
 
         return redirect()->route('admin.kuliner.index')->with('success', 'Data kuliner berhasil dihapus!');

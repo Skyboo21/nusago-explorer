@@ -82,7 +82,11 @@
             @forelse($kuliners as $item)
                 @php
                     $fallbackImg = 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500&q=80';
-                    $imageUrl = $item->gambar_kuliner ? asset('storage/' . $item->gambar_kuliner) : $fallbackImg;
+                    $imageUrl = $item->gambar_kuliner
+                        ? (str_starts_with($item->gambar_kuliner, 'http')
+                            ? $item->gambar_kuliner
+                            : asset('storage/' . $item->gambar_kuliner))
+                        : $fallbackImg;
                 @endphp
                 
                 <!-- Tambahkan data-wisata-id untuk filter lokal -->
@@ -201,7 +205,6 @@
         title.innerHTML = `Kuliner Sekitar ${namaWisata} 🏞️`;
         
         document.querySelectorAll('.item-kuliner').forEach(item => {
-            // Tampilkan jika wisata_id nya cocok
             if (item.dataset.wisataId == wisataId) {
                 item.style.display = 'block';
                 visibleCount++;
@@ -267,7 +270,9 @@
             grid.classList.remove('d-none');
             empty.classList.add('d-none');
             data.forEach(item => {
-                const imageUrl = item.gambar_kuliner ? '/storage/' + item.gambar_kuliner : 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500&q=80';
+                const imageUrl = item.gambar_kuliner
+                    ? (item.gambar_kuliner.startsWith('http') ? item.gambar_kuliner : '/storage/' + item.gambar_kuliner)
+                    : 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500&q=80';
                 const halalBadge = item.is_halal 
                     ? '<span class="badge bg-success bg-opacity-10 text-success fw-medium px-2 py-1 rounded-2" style="font-size: 0.7rem;"><i class="fa-solid fa-certificate me-1"></i>Halal</span>'
                     : '<span class="badge bg-danger bg-opacity-10 text-danger fw-medium px-2 py-1 rounded-2" style="font-size: 0.7rem;"><i class="fa-solid fa-circle-exclamation me-1"></i>Non-Halal</span>';
