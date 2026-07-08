@@ -44,7 +44,7 @@ class ChatbotController extends Controller
             array_shift($contents);
         }
 
-        $apiKey = env('GEMINI_API_KEY');
+        $apiKey = config('services.gemini.key');
         $botReply = 'Maaf, saya sedang mengalami gangguan. Silakan coba lagi.';
         
         try {
