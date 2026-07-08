@@ -11,11 +11,9 @@ use App\Http\Controllers\Admin\KelolaPengunjungController;
 use App\Http\Controllers\Admin\KelolaWisataController;
 use App\Http\Controllers\Admin\KelolaReviewController;
 use App\Http\Controllers\Admin\DatabaseGuideController;
-use App\Http\Controllers\WisataController; // <-- TAMBAHAN BARU
+use App\Http\Controllers\WisataController; 
 use App\Http\Controllers\KulinerController;
 use App\Http\Controllers\SearchController;
-
-// Halaman Utama dipindah ke dalam auth
 
 // Route untuk pengguna yang BELUM LOGIN (Guest)
 Route::middleware('guest')->group(function () {
@@ -33,7 +31,6 @@ Route::get('/search', [SearchController::class, 'index'])->name('search');
 
 // Route untuk pengguna yang SUDAH LOGIN (Auth)
 Route::middleware('auth')->group(function () {
-
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
@@ -61,18 +58,25 @@ Route::middleware('auth')->group(function () {
         return view('maps.index');
     })->name('maps.index');
 
-    // Fitur Cari Terdekat (Kuliner)
+    // Fitur Cari Terdekat (Kuliner API)
     Route::get('/api/kuliner/terdekat', [KulinerController::class, 'cariTerdekat'])->name('kuliner.terdekat');
 });
 
-// Fitur Tambahan (Bisa diakses, tapi diblur untuk Guest di dalam View-nya)
+// ==========================================
+// FITUR TAMBAHAN PUBLIK (BISA DIAKSES SIAPA SAJA)
+// ==========================================
 Route::get('/destinasi', [WisataController::class, 'halamanDestinasi'])->name('destinasi');
 Route::get('/detail-wisata', [WisataController::class, 'showDetail']);
 Route::get('/pemandu-lokal', function () { return view('coming-soon', ['title' => 'Pemandu Lokal']); })->name('pemandu-lokal');
+
+// Route Publik Kuliner
 Route::get('/kuliner', [KulinerController::class, 'index'])->name('kuliner');
+Route::get('/kuliner/{id}', [KulinerController::class, 'showDetail'])->name('kuliner.detail');
 
 
-// Route Admin
+// ==========================================
+// ROUTE ADMIN (WAJIB LOGIN & ROLE ADMIN)
+// ==========================================
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
 
@@ -89,6 +93,14 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/wisata/{id}/edit', [KelolaWisataController::class, 'edit'])->name('wisata.edit');
     Route::put('/wisata/{id}', [KelolaWisataController::class, 'update'])->name('wisata.update');
     Route::delete('/wisata/{id}', [KelolaWisataController::class, 'destroy'])->name('wisata.destroy');
+
+    // Kelola Kuliner Admin
+    Route::get('/kuliner', [App\Http\Controllers\Admin\KelolaKulinerController::class, 'index'])->name('kuliner.index');
+    Route::get('/kuliner/create', [App\Http\Controllers\Admin\KelolaKulinerController::class, 'create'])->name('kuliner.create');
+    Route::post('/kuliner', [App\Http\Controllers\Admin\KelolaKulinerController::class, 'store'])->name('kuliner.store');
+    Route::get('/kuliner/{id}/edit', [App\Http\Controllers\Admin\KelolaKulinerController::class, 'edit'])->name('kuliner.edit');
+    Route::put('/kuliner/{id}', [App\Http\Controllers\Admin\KelolaKulinerController::class, 'update'])->name('kuliner.update');
+    Route::delete('/kuliner/{id}', [App\Http\Controllers\Admin\KelolaKulinerController::class, 'destroy'])->name('kuliner.destroy');
 
     // Kelola Review
     Route::get('/review', [KelolaReviewController::class, 'index'])->name('review.index');
@@ -115,5 +127,3 @@ Route::get('/landing-page', function () {
 Route::get('/tes-api', function () {
     return view('tes-api');
 });
-
-
