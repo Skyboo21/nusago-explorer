@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('kuliners', function (Blueprint $table) {
+        Schema::table('kuliner', function (Blueprint $table) {
             // Menambahkan kolom wisata_id sebagai Foreign Key ke tabel wisatas
             // nullable() -> Agar data kuliner lama yang belum punya wisata tidak error
             // onDelete('set null') -> Jika wisata dihapus, kulinernya tetap ada (hanya lepas relasinya)
@@ -24,7 +24,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('kuliners', function (Blueprint $table) {
+        Schema::table('kuliner', function (Blueprint $table) {
             $table->dropForeign(['wisata_id']);
             $table->dropColumn('wisata_id');
         });
