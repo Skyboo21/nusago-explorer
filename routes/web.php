@@ -60,6 +60,11 @@ Route::middleware('auth')->group(function () {
 
     // Fitur Cari Terdekat (Kuliner API)
     Route::get('/api/kuliner/terdekat', [KulinerController::class, 'cariTerdekat'])->name('kuliner.terdekat');
+
+    // Misi Harian
+    Route::get('/misi-harian', function () {
+        return view('misi-harian');
+    })->name('misi.harian');
 });
 
 // ==========================================

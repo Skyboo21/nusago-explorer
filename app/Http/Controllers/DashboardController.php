@@ -69,7 +69,7 @@ class DashboardController extends Controller
     {
         $menus = [
             ['nama' => 'Peta Lokasi', 'url' => route('maps.index'), 'icon' => 'fa-regular fa-map'],
-            ['nama' => 'Misi Harian', 'url' => '#', 'icon' => 'fa-solid fa-bullseye'],
+            ['nama' => 'Misi Harian', 'url' => route('misi.harian'), 'icon' => 'fa-solid fa-bullseye'],
             ['nama' => 'Kuliner', 'url' => route('kuliner'), 'icon' => 'fa-solid fa-utensils'],
             ['nama' => 'Pengaturan', 'url' => route('profile.settings'), 'icon' => 'fa-solid fa-gear'],
         ];
