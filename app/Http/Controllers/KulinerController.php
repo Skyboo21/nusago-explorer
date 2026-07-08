@@ -38,7 +38,6 @@ class KulinerController extends Controller
             * cos( radians( longitude ) - radians(?) ) 
             + sin( radians(?) ) * sin( radians( latitude ) ) ) ) AS distance", 
             [$lat, $lon, $lat])
-        ->having('distance', '<', 5) // Radius 5 KM
         ->orderBy('distance')
         ->limit(20)
         ->get();
